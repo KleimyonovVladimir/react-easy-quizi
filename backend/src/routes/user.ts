@@ -18,7 +18,7 @@ router.post("/users/create", async (req, res) => {
     if (foundedUser)
       res.status(400).send(`User with this email '${email}' is already exist`);
 
-    // Creating new user with 'Novice' rate
+    // Creating new user
     const newUser = await userRepository.create(req.body);
 
     // @TODO change to newUser?.toJSON().uid
