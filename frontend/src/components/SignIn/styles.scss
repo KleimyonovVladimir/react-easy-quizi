@@ -1,0 +1,14 @@
+.form {
+  &-login {
+    width: 425px;
+
+    &-title {
+      margin-bottom: 40px;
+    }
+  }
+  &-inputs-container {
+    display: grid;
+    grid-row-gap: 35px;
+    margin-bottom: 40px;
+  }
+}

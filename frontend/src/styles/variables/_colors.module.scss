@@ -1,0 +1,9 @@
+$ui-color-dark-blue: #000842;
+$ui-color-white: #fff;
+$ui-color-dark-grey: #282828;
+
+:export {
+  white: $ui-color-white;
+  darkBlue: $ui-color-dark-blue;
+  darkGrey: $ui-color-dark-grey;
+}
