@@ -1,12 +1,7 @@
 import { Sequelize } from "sequelize";
 import { config } from "./config";
 
-export const sequelize = new Sequelize(
-  config.database.name,
-  config.database.user,
-  config.database.password,
-  config.database.otherOptions
-);
+export const sequelize = new Sequelize(config.database.name, config.database.user, config.database.password, config.database.otherOptions);
 
 const connection = () =>
   new Promise((resolve, reject) => {

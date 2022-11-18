@@ -8,6 +8,7 @@
 # Node artifact files
 node_modules/
 dist/
+volumes/
 
 # Compiled Java class files
 *.class
@@ -49,4 +50,3 @@ Thumbs.db
 *.flv
 *.mov
 *.wmv
-
