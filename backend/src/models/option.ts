@@ -1,6 +1,7 @@
 import { DataTypes, Model } from "sequelize";
 import { sequelize } from "../database";
 
+// @TODO Not used
 export enum OptionField {
   Uid = "uid",
   Option = "option",
