@@ -13,4 +13,14 @@ router.post("/login", passport.authenticate("local"), async (req, res) => {
   }
 });
 
+router.post("/logout", async (req, res, next) => {
+  req.logout((error) => {
+    if (error) {
+      return next(error);
+    }
+  });
+
+  res.sendStatus(200);
+});
+
 export default router;
