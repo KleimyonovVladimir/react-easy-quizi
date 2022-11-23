@@ -1,6 +1,6 @@
 import { DataTypes, Model } from "sequelize";
 import { sequelize } from "../database";
-import { QuestionDB, QuizRequest } from "../types";
+import { QuestionDB, Quiz } from "../types";
 
 export enum QuizField {
   Uid = "uid",
@@ -51,7 +51,7 @@ const QuizModel = sequelize.define<Model<IQuiz>>("quiz", {
 });
 
 QuizModel.prototype.toJSON = function () {
-  return { ...this?.get() } as QuizRequest<QuestionDB>;
+  return { ...this?.get() } as Quiz<QuestionDB>;
 };
 
 export { QuizModel, IQuiz };

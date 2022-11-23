@@ -2,7 +2,7 @@ import { WhereOptions } from "sequelize";
 import { IQuiz, QuizField, QuizModel } from "../models/quiz";
 import { QuestionModel, QuestionField } from "../models/question";
 import { UserModel, UserField } from "../models/user";
-import { QuizRequest } from "../types";
+import { Quiz } from "../types";
 
 export const includeUser = {
   model: UserModel,
@@ -16,7 +16,7 @@ export const includeQuestion = {
 };
 
 export class QuizRepository {
-  async create(quiz: QuizRequest, withReturn: boolean = true) {
+  async create(quiz: Quiz, withReturn: boolean = true) {
     await QuizModel.create(quiz, { include: [QuestionModel] });
 
     if (withReturn) {

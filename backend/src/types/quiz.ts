@@ -15,6 +15,6 @@ export interface QuestionDB {
   questionJSON: string;
 }
 
-export interface QuizRequest<T = Question> extends BaseQuiz {
+export interface Quiz<T = Question> extends BaseQuiz {
   questions: Array<T>;
 }
