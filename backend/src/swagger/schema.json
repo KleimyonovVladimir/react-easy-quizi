@@ -18,6 +18,10 @@
     {
       "name": "User",
       "description": "Operations about user"
+    },
+    {
+      "name": "Quiz",
+      "description": "Operations about quiz"
     }
   ],
   "paths": {
@@ -95,6 +99,54 @@
           }
         }
       }
+    },
+    "/quizzes": {
+      "get": {
+        "tags": ["Quiz"],
+        "summary": "Get all quizzes",
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/QuizResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/quizzes/create": {
+      "post": {
+        "tags": ["Quiz"],
+        "summary": "Create new quiz",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/QuizBase"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QuizResponse"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -126,6 +178,56 @@
           "email": "ObiWanKenobi@easy-quizi.com",
           "password": "123456"
         }
+      },
+      "QuestionBase": {
+        "type": "object",
+        "properties": {
+          "question": {
+            "type": "object",
+            "properties": {
+              "question": { "type": "string" },
+              "answers": {
+                "type": "object",
+                "additionalProperties": {}
+              },
+              "rightAnswers": { "type": "array", "items": { "type": "string" } }
+            }
+          }
+        }
+      },
+      "Question": {
+        "allOf": [
+          {
+            "type": "object",
+            "properties": {
+              "uid": { "type": "string" }
+            }
+          },
+          { "$ref": "#/components/schemas/QuestionBase" }
+        ]
+      },
+      "QuizBase": {
+        "type": "object",
+        "properties": {
+          "title": { "type": "string" },
+          "time": { "type": "string" },
+          "questions": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/QuestionBase" }
+          }
+        }
+      },
+      "QuizResponse": {
+        "allOf": [
+          {
+            "type": "object",
+            "properties": {
+              "uid": { "type": "string" },
+              "createdBy": { "type": "string" }
+            }
+          },
+          { "$ref": "#/components/schemas/QuizBase" }
+        ]
       }
     }
   }

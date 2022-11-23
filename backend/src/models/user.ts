@@ -58,9 +58,16 @@ const UserModel = sequelize.define<Model<IUser>>("user", {
   },
 });
 
+UserModel.prototype.toJSON = function () {
+  let values = Object.assign({}, this?.get());
+
+  delete values.password;
+  return values;
+};
+
 // Encrypting user's password before creating
 UserModel.beforeCreate(async (user) => {
-  const initPassword = user?.toJSON()?.password || ""; // unencrypted password
+  const initPassword = user.getDataValue(UserField.Password) || ""; // unencrypted password
   const hashedPassword = (await generateHashPassword(initPassword)) as string;
 
   user.setDataValue(UserField.Password, hashedPassword);

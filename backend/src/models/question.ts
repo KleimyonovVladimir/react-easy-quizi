@@ -3,13 +3,13 @@ import { sequelize } from "../database";
 
 export enum QuestionField {
   Uid = "uid",
-  Message = "message",
+  QuestionJSON = "questionJSON",
   QuizId = "quizId",
 }
 
 interface IQuestion {
   [QuestionField.Uid]?: string;
-  [QuestionField.Message]: string;
+  [QuestionField.QuestionJSON]: string;
 }
 
 const QuestionModel = sequelize.define<Model<IQuestion>>("question", {
@@ -19,13 +19,23 @@ const QuestionModel = sequelize.define<Model<IQuestion>>("question", {
     allowNull: false,
     defaultValue: DataTypes.UUIDV4,
   },
-  [QuestionField.Message]: {
-    type: DataTypes.STRING,
+  [QuestionField.QuestionJSON]: {
+    type: DataTypes.JSON,
+    field: "question_JSON",
     allowNull: false,
     validate: {
       notEmpty: true,
     },
   },
 });
+
+QuestionModel.prototype.toJSON = function () {
+  let values = { ...this?.get() };
+
+  const parsedValues = { ...values, question: JSON.parse(values.questionJSON) };
+
+  delete parsedValues.questionJSON;
+  return parsedValues;
+};
 
 export { QuestionModel, IQuestion };

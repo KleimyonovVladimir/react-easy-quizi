@@ -1,14 +1,19 @@
 import { DataTypes, Model } from "sequelize";
 import { sequelize } from "../database";
+import { QuestionDB, QuizRequest } from "../types";
 
 export enum QuizField {
   Uid = "uid",
   Title = "title",
+  CreatedBy = "createdBy",
+  Time = "time",
 }
 
 interface IQuiz {
   [QuizField.Uid]?: string;
   [QuizField.Title]: string;
+  [QuizField.CreatedBy]: string;
+  [QuizField.Time]: string;
 }
 
 const QuizModel = sequelize.define<Model<IQuiz>>("quiz", {
@@ -26,6 +31,27 @@ const QuizModel = sequelize.define<Model<IQuiz>>("quiz", {
       notEmpty: true,
     },
   },
+  [QuizField.CreatedBy]: {
+    type: DataTypes.STRING,
+    field: "created_by",
+    allowNull: false,
+    defaultValue: "",
+    validate: {
+      notEmpty: true,
+    },
+  },
+  [QuizField.Time]: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    defaultValue: "",
+    validate: {
+      notEmpty: true,
+    },
+  },
 });
+
+QuizModel.prototype.toJSON = function () {
+  return { ...this?.get() } as QuizRequest<QuestionDB>;
+};
 
 export { QuizModel, IQuiz };

@@ -19,4 +19,8 @@ export class UserRepository {
   getAll() {
     return UserModel.findAll();
   }
+
+  findByPk(primaryKey?: string) {
+    return UserModel.findByPk(primaryKey);
+  }
 }
