@@ -1,4 +1,4 @@
-import Router from "express";
+import Router, { Request } from "express";
 import { isUserStudent } from "../helpers/isUserStudent";
 import { QuizField } from "../models/quiz";
 import { IUser, UserField } from "../models/user";
@@ -11,6 +11,18 @@ const router = Router();
 
 const quizRepository = new QuizRepository();
 const userRepository = new UserRepository();
+
+router.get("/quizzes", async (req, res) => {
+  try {
+    // Getting all quizzes
+    const quizzes = await quizRepository.getAll();
+
+    // Return status 200 and quizzes back to the client
+    res.status(200).send(quizzes);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
 
 router.post("/quizzes/create", async (req, res) => {
   const { title, time, questions } = req.body;
@@ -53,13 +65,25 @@ router.post("/quizzes/create", async (req, res) => {
   }
 });
 
-router.get("/quizzes", async (req, res) => {
+router.delete("/quizzes/delete/:id/", async (req, res) => {
   try {
-    // Getting all quizzes
-    const quizzes = await quizRepository.getAll();
+    const {
+      params: { id },
+    } = req;
 
-    // Return status 200 and quizzes back to the client
-    res.status(200).send(quizzes);
+    if (!id) return res.status(400).send("ID is required");
+
+    const foundedQuiz = await quizRepository.getOne({
+      [QuizField.Uid]: id,
+    });
+
+    if (foundedQuiz) {
+      await quizRepository.delete({ [QuizField.Uid]: id });
+
+      res.sendStatus(200);
+    } else {
+      res.status(400).send(`No quiz with id: ${id}`);
+    }
   } catch (error) {
     res.status(500).send(error);
   }
