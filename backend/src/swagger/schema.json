@@ -8,7 +8,7 @@
   },
   "servers": [
     {
-      "url": "http://localhost:5000"
+      "url": "http://localhost:4000"
     }
   ],
   "tags": [
@@ -147,6 +147,29 @@
           }
         }
       }
+    },
+    "/quizzes/delete/{id}": {
+      "delete": {
+        "tags": ["Quiz"],
+        "summary": "Delete quiz by id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -215,6 +238,30 @@
             "type": "array",
             "items": { "$ref": "#/components/schemas/QuestionBase" }
           }
+        },
+        "example": {
+          "title": "Web developing UI/UX 1",
+          "time": "25",
+          "questions": [
+            {
+              "question": "Why UI/UX so important?",
+              "answers": {
+                "0": "because",
+                "1": "it is important",
+                "2": "not important",
+                "3": "I do not know"
+              },
+              "rightAnswers": [0, 1]
+            },
+            {
+              "question": "Why are u gay?",
+              "answers": {
+                "0": "because",
+                "1": "I am not gay"
+              },
+              "rightAnswers": [0]
+            }
+          ]
         }
       },
       "QuizResponse": {

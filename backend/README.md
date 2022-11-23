@@ -6,7 +6,7 @@ To start the project, run the following command in the console. This command wil
  $ docker-compose up --build
 ```
 
-Now you server is available on port _localhost:5000_ 🥳
+Now you server is available on port _localhost:4000_ 🥳
 
 **_Also you have to connect to the MySQL after starting docker_**
 

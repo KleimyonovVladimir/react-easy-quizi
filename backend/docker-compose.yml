@@ -17,7 +17,7 @@ services:
     depends_on:
       - mysql
     ports:
-      - 5000:5000
+      - 4000:4000
   mysql:
     container_name: mysql
     image: mysql:8.0

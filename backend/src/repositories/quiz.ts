@@ -36,4 +36,10 @@ export class QuizRepository {
       include: [includeQuestion],
     });
   }
+
+  delete(conditions: WhereOptions<IQuiz>) {
+    return QuizModel.destroy({
+      where: conditions,
+    });
+  }
 }
