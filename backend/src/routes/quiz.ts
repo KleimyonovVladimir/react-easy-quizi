@@ -7,6 +7,7 @@ import { QuizRepository } from "../repositories/quiz";
 import { UserRepository } from "../repositories/user";
 import { Question } from "../types";
 import { clearAnswersInQuiz } from "../utils/removeAnswersFromQuiz";
+import { isModerator } from "../middleware/is-moderator";
 
 const router = Router();
 
@@ -27,14 +28,12 @@ router.get("/quizzes", async (req, res) => {
   }
 });
 
-router.post("/quizzes/create", async (req, res) => {
+router.post("/quizzes/create", isModerator, async (req, res) => {
   const { title, time, questions } = req.body;
   const { user } = req || {};
 
   const userId = (user as IUser)?.[UserField.Uid];
 
-  if (isUserStudent(user as IUser))
-    return res.status(400).send("Student can not create quiz");
   if (!title) return res.status(400).send("Title for the quiz are required");
   if (!time) return res.status(400).send("Time for the quiz are required");
 
@@ -68,7 +67,7 @@ router.post("/quizzes/create", async (req, res) => {
   }
 });
 
-router.delete("/quizzes/delete/:id/", async (req, res) => {
+router.delete("/quizzes/delete/:id/", isModerator, async (req, res) => {
   try {
     const {
       params: { id },
