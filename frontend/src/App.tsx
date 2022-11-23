@@ -1,8 +1,8 @@
 import { FC } from 'react'
-import SignInPage from 'pages/SignInPage'
+import { Router } from 'Routes'
 
 const App: FC = () => {
-  return <SignInPage />
+  return <Router />
 }
 
 export default App

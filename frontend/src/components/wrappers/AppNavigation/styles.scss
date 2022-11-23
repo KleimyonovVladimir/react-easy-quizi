@@ -1,0 +1,14 @@
+@import 'styles/variables';
+
+.application {
+  display: flex;
+}
+
+.wrapper {
+  flex: 5;
+}
+
+.content {
+  border: 10px solid #ebebebc9;
+  height: calc(100% - $ui-header-height);
+}

@@ -1,9 +1,8 @@
 import { FC } from 'react'
-
-import SignIn from 'components/SignIn'
-import { Logo } from 'components/Logo'
-
 import loginBackground from 'assets/login-bg.png'
+
+import { Logo } from 'components/Logo'
+import SignIn from 'components/SignIn'
 
 import './styles.scss'
 
@@ -12,8 +11,8 @@ const mainCssClass = 'sign-in'
 const SignInPage: FC = () => {
   return (
     <>
-      <Logo />
-      <div className="content">
+      <Logo className={`${mainCssClass}-logo`} color="black" />
+      <div className={`${mainCssClass}-content`}>
         <div className={`${mainCssClass}-container`}>
           <SignIn />
         </div>

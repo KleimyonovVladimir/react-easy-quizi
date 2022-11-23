@@ -1,0 +1,9 @@
+@import 'styles/variables';
+
+.header {
+  background-color: $ui-color-white;
+  height: $ui-header-height;
+  display: flex;
+  align-items: center;
+  padding: 0 15px;
+}
