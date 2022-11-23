@@ -1,4 +1,5 @@
 import Router from "express";
+import { isAdmin } from "../middleware/is-moderator";
 import { UserRepository } from "../repositories/user";
 import { generateUserToDB } from "../utils/createMockData";
 
@@ -6,7 +7,7 @@ const router = Router();
 
 const userRepository = new UserRepository();
 
-router.post("/users/create", async (req, res) => {
+router.post("/users/create", isAdmin, async (req, res) => {
   const { email, password } = req.body;
 
   if (!email || !password)
@@ -29,7 +30,7 @@ router.post("/users/create", async (req, res) => {
   }
 });
 
-router.get("/users", async (req, res) => {
+router.get("/users", isAdmin, async (req, res) => {
   try {
     // @TMP Add mock users for developing (Remove in the future)
     await generateUserToDB();
