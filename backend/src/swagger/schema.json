@@ -52,6 +52,17 @@
         }
       }
     },
+    "/logout": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Logout user from the system",
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          }
+        }
+      }
+    },
     "/users": {
       "get": {
         "tags": ["User"],
