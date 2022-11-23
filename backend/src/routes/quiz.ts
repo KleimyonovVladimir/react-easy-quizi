@@ -1,4 +1,4 @@
-import Router, { Request } from "express";
+import Router from "express";
 import { isUserStudent } from "../helpers/isUserStudent";
 import { QuizField } from "../models/quiz";
 import { IUser, UserField } from "../models/user";
@@ -6,6 +6,7 @@ import { QuestionField } from "../models/question";
 import { QuizRepository } from "../repositories/quiz";
 import { UserRepository } from "../repositories/user";
 import { Question } from "../types";
+import { clearAnswersInQuiz } from "../utils/removeAnswersFromQuiz";
 
 const router = Router();
 
@@ -18,7 +19,9 @@ router.get("/quizzes", async (req, res) => {
     const quizzes = await quizRepository.getAll();
 
     // Return status 200 and quizzes back to the client
-    res.status(200).send(quizzes);
+    res
+      .status(200)
+      .send(quizzes.map((quiz) => clearAnswersInQuiz(quiz.toJSON())));
   } catch (error) {
     res.status(500).send(error);
   }
