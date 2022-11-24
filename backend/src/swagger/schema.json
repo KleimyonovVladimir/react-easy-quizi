@@ -159,7 +159,7 @@
         }
       }
     },
-    "quizzes/result/send": {
+    "/quizzes/result/send": {
       "post": {
         "tags": ["Quiz"],
         "summary": "Send result",
