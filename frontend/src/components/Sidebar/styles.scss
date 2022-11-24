@@ -1,0 +1,40 @@
+@import 'styles/variables/_colors.module.scss';
+
+.sidebar {
+  position: relative;
+  width: 300px;
+  height: 100vh;
+  background-color: $ui-color-dark-blue;
+  color: $ui-color-white;
+
+  &-list {
+    position: absolute;
+    top: 50%;
+    left: 20%;
+    transform: translate(-20%, -50%);
+    width: 100%;
+  }
+
+  &-item {
+    width: 100%;
+  }
+
+  &-link {
+    font-size: 20px;
+    opacity: 0.8;
+
+    &:hover,
+    &.active {
+      opacity: 1;
+    }
+  }
+
+  &-logo {
+    width: 160px;
+    height: 35px;
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    transform: translate(-50%, -10%);
+  }
+}

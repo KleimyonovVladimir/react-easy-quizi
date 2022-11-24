@@ -1,15 +1,16 @@
 import { FC } from 'react'
+import { ReactComponent as LogoSvg } from 'assets/logo.svg'
 
-import logo from 'assets/logo.svg'
+import { IProps } from './type'
 
 import './styles.scss'
 
 const mainCssClass = 'logo'
 
-export const Logo: FC = () => {
+export const Logo: FC<IProps> = ({ color = 'white', className }) => {
   return (
-    <div className={`${mainCssClass}-box`}>
-      <img src={logo} className={`${mainCssClass}-img`} alt="Logo" />
+    <div className={className}>
+      <LogoSvg fill={color} className={`${mainCssClass}-img`} />
     </div>
   )
 }
