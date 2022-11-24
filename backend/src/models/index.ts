@@ -6,7 +6,7 @@ import { QuestionModel } from "./question";
 import { OptionModel } from "./option";
 import { QuizUserModel } from "./quiz-user";
 
-export const initModels = () => {
+export const initModels = async () => {
   // User
   UserModel.belongsToMany(QuizModel, {
     through: QuizUserModel,
@@ -22,7 +22,10 @@ export const initModels = () => {
   });
 
   // Question
-  QuizModel.hasMany(QuestionModel);
+  QuizModel.hasMany(QuestionModel, {
+    onDelete: "cascade",
+    onUpdate: "cascade",
+  });
   QuestionModel.belongsTo(QuizModel);
 
   // Option
@@ -32,4 +35,8 @@ export const initModels = () => {
   // Result
   ResultModel.hasMany(ResultDetailsModel);
   ResultDetailsModel.belongsTo(ResultModel);
+
+  await UserModel.sync();
+  await QuizModel.sync();
+  await QuestionModel.sync();
 };

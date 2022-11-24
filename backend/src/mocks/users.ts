@@ -1,11 +1,5 @@
 export const mockUsers = [
   {
-    email: "admin@easy-quizi.com",
-    fullName: "Administrator",
-    status: "admin",
-    password: "123456",
-  },
-  {
     email: "LukeSkywalker@gmail.com",
     fullName: "Luke Skywalker",
     status: "student",

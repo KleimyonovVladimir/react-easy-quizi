@@ -7,7 +7,7 @@ const userRepository = new UserRepository();
 export const generateUserToDB = async () => {
   const users = await userRepository.getAll();
 
-  if (!users.length) {
+  if (users.length === 1) {
     return await Promise.all(
       (mockUsers as IUser[]).map(async (element) => {
         await userRepository.create(element, false);

@@ -1,5 +1,4 @@
 import Router from "express";
-import { isUserStudent } from "../helpers/isUserStudent";
 import { QuizField } from "../models/quiz";
 import { IUser, UserField } from "../models/user";
 import { QuestionField } from "../models/question";
