@@ -1,0 +1,33 @@
+version: "3.7"
+services:
+  api:
+    container_name: api
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: quizi-api
+    restart: always
+    environment:
+      - MYSQL_DATABASE=easy_quizi_db
+      - MYSQL_USER=user
+      - MYSQL_PASSWORD=123456789
+      - MYSQL_DB_HOST=mysql
+      #These variables will be taken from .env
+      - SESSION_SECRET_KEY
+    depends_on:
+      - mysql
+    ports:
+      - 4000:4000
+  mysql:
+    container_name: mysql
+    image: mysql:8.0
+    restart: always
+    environment:
+      - MYSQL_DATABASE=easy_quizi_db
+      - MYSQL_USER=user
+      - MYSQL_PASSWORD=123456789
+      - MYSQL_ROOT_PASSWORD=root
+    ports:
+      - 3306:3306
+    volumes:
+      - ./volumes/mysql:/var/lib/mysql

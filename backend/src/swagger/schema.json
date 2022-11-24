@@ -1,0 +1,292 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Easy-Quizi API",
+    "description": "API definition",
+    "termsOfService": "http://swagger.io/terms/",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:4000"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Auth"
+    },
+    {
+      "name": "User",
+      "description": "Operations about user"
+    },
+    {
+      "name": "Quiz",
+      "description": "Operations about quiz"
+    }
+  ],
+  "paths": {
+    "/login": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Logs user into the system",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UsrLoginRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/logout": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Logout user from the system",
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          }
+        }
+      }
+    },
+    "/users": {
+      "get": {
+        "tags": ["User"],
+        "summary": "Get all users",
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/User"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/create": {
+      "post": {
+        "tags": ["User"],
+        "summary": "Create new user",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/quizzes": {
+      "get": {
+        "tags": ["Quiz"],
+        "summary": "Get all quizzes",
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/QuizResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/quizzes/create": {
+      "post": {
+        "tags": ["Quiz"],
+        "summary": "Create new quiz",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/QuizBase"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QuizResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/quizzes/delete/{id}": {
+      "delete": {
+        "tags": ["Quiz"],
+        "summary": "Delete quiz by id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "User": {
+        "type": "object",
+        "required": ["fullName", "email", "password", "status"],
+        "properties": {
+          "email": { "type": "string" },
+          "password": { "type": "string" },
+          "fullName": { "type": "string" },
+          "status": { "type": "string" }
+        },
+        "example": {
+          "fullName": "Obi Wan Kenobi",
+          "email": "ObiWanKenobi@easy-quizi.com",
+          "status": "teacher",
+          "password": "123456"
+        }
+      },
+      "UsrLoginRequest": {
+        "type": "object",
+        "required": ["email", "password"],
+        "properties": {
+          "email": { "type": "string" },
+          "password": { "type": "string" }
+        },
+        "example": {
+          "email": "ObiWanKenobi@easy-quizi.com",
+          "password": "123456"
+        }
+      },
+      "QuestionBase": {
+        "type": "object",
+        "properties": {
+          "question": {
+            "type": "object",
+            "properties": {
+              "question": { "type": "string" },
+              "answers": {
+                "type": "object",
+                "additionalProperties": {}
+              },
+              "rightAnswers": { "type": "array", "items": { "type": "string" } }
+            }
+          }
+        }
+      },
+      "Question": {
+        "allOf": [
+          {
+            "type": "object",
+            "properties": {
+              "uid": { "type": "string" }
+            }
+          },
+          { "$ref": "#/components/schemas/QuestionBase" }
+        ]
+      },
+      "QuizBase": {
+        "type": "object",
+        "properties": {
+          "title": { "type": "string" },
+          "time": { "type": "string" },
+          "questions": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/QuestionBase" }
+          }
+        },
+        "example": {
+          "title": "Web developing UI/UX 1",
+          "time": "25",
+          "questions": [
+            {
+              "question": "Why UI/UX so important?",
+              "answers": {
+                "0": "because",
+                "1": "it is important",
+                "2": "not important",
+                "3": "I do not know"
+              },
+              "rightAnswers": [0, 1]
+            },
+            {
+              "question": "Why are u gay?",
+              "answers": {
+                "0": "because",
+                "1": "I am not gay"
+              },
+              "rightAnswers": [0]
+            }
+          ]
+        }
+      },
+      "QuizResponse": {
+        "allOf": [
+          {
+            "type": "object",
+            "properties": {
+              "uid": { "type": "string" },
+              "createdBy": { "type": "string" }
+            }
+          },
+          { "$ref": "#/components/schemas/QuizBase" }
+        ]
+      }
+    }
+  }
+}
