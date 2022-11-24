@@ -123,7 +123,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/QuizResponse"
+                    "$ref": "#/components/schemas/Quiz"
                   }
                 }
               }
@@ -151,7 +151,34 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/QuizResponse"
+                  "$ref": "#/components/schemas/Quiz"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "quizzes/result/send": {
+      "post": {
+        "tags": ["Quiz"],
+        "summary": "Send result",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Quiz"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Score"
                 }
               }
             }
@@ -213,41 +240,28 @@
           "password": "123456"
         }
       },
-      "QuestionBase": {
-        "type": "object",
-        "properties": {
-          "question": {
-            "type": "object",
-            "properties": {
-              "question": { "type": "string" },
-              "answers": {
-                "type": "object",
-                "additionalProperties": {}
-              },
-              "rightAnswers": { "type": "array", "items": { "type": "string" } }
-            }
-          }
-        }
-      },
       "Question": {
-        "allOf": [
-          {
+        "type": "object",
+        "required": ["question", "answers", "rightAnswers"],
+        "properties": {
+          "uid": { "type": "string" },
+          "question": { "type": "string" },
+          "answers": {
             "type": "object",
-            "properties": {
-              "uid": { "type": "string" }
-            }
+            "additionalProperties": {}
           },
-          { "$ref": "#/components/schemas/QuestionBase" }
-        ]
+          "rightAnswers": { "type": "array", "items": { "type": "string" } }
+        }
       },
       "QuizBase": {
         "type": "object",
+        "required": ["title", "questions"],
         "properties": {
           "title": { "type": "string" },
           "time": { "type": "string" },
           "questions": {
             "type": "array",
-            "items": { "$ref": "#/components/schemas/QuestionBase" }
+            "items": { "$ref": "#/components/schemas/Question" }
           }
         },
         "example": {
@@ -275,10 +289,11 @@
           ]
         }
       },
-      "QuizResponse": {
+      "Quiz": {
         "allOf": [
           {
             "type": "object",
+            "required": ["uid"],
             "properties": {
               "uid": { "type": "string" },
               "createdBy": { "type": "string" }
@@ -286,6 +301,12 @@
           },
           { "$ref": "#/components/schemas/QuizBase" }
         ]
+      },
+      "Score": {
+        "type": "object",
+        "properties": {
+          "score": { "type": "string" }
+        }
       }
     }
   }

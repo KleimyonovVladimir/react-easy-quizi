@@ -3,7 +3,6 @@ import { QuizModel } from "./quiz";
 import { ResultModel } from "./results";
 import { ResultDetailsModel } from "./resultDetails";
 import { QuestionModel } from "./question";
-import { OptionModel } from "./option";
 import { QuizUserModel } from "./quiz-user";
 
 export const initModels = async () => {
@@ -27,10 +26,6 @@ export const initModels = async () => {
     onUpdate: "cascade",
   });
   QuestionModel.belongsTo(QuizModel);
-
-  // Option
-  QuestionModel.hasMany(OptionModel);
-  OptionModel.belongsTo(QuestionModel);
 
   // Result
   ResultModel.hasMany(ResultDetailsModel);

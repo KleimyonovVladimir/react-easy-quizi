@@ -24,6 +24,10 @@ export class QuizRepository {
     }
   }
 
+  findByPk(primaryKey?: string) {
+    return QuizModel.findByPk(primaryKey, { include: [includeQuestion] });
+  }
+
   getOne(conditions?: WhereOptions<IQuiz>) {
     return QuizModel.findOne({
       where: conditions,

@@ -7,7 +7,7 @@ export enum ResultField {
   QuizUserId = "quizUserId",
 }
 
-interface IResult {
+export interface IResult {
   [ResultField.Uid]?: string;
   [ResultField.Score]: string;
   [ResultField.QuizUserId]: string;
@@ -23,7 +23,6 @@ const ResultModel = sequelize.define<Model<IResult>>("result", {
   [ResultField.Score]: {
     type: DataTypes.STRING,
     allowNull: false,
-    unique: true,
     validate: {
       notEmpty: true,
     },
