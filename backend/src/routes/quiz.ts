@@ -97,7 +97,7 @@ router.delete("/quizzes/delete/:id/", isModerator, async (req, res) => {
   }
 });
 
-router.get("/quizzes/results", async (req, res) => {
+router.post("/quizzes/results", async (req, res) => {
   try {
     const { userUid, quizUid } = req.body;
 

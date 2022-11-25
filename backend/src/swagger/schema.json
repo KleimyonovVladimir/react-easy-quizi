@@ -159,33 +159,6 @@
         }
       }
     },
-    "/quizzes/result/send": {
-      "post": {
-        "tags": ["Quiz"],
-        "summary": "Send result",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Quiz"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Successful operation",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Score"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/quizzes/delete/{id}": {
       "delete": {
         "tags": ["Quiz"],
@@ -205,6 +178,63 @@
         "responses": {
           "200": {
             "description": "Successful operation"
+          }
+        }
+      }
+    },
+    "/quizzes/results": {
+      "post": {
+        "tags": ["Quiz"],
+        "summary": "Get results",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ResultRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Result"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/quizzes/result/send": {
+      "post": {
+        "tags": ["Quiz"],
+        "summary": "Send result",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Quiz"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              }
+            }
           }
         }
       }
@@ -302,10 +332,35 @@
           { "$ref": "#/components/schemas/QuizBase" }
         ]
       },
-      "Score": {
+      "ResultRequest": {
         "type": "object",
         "properties": {
-          "score": { "type": "string" }
+          "userUid": { "type": "string" },
+          "quizUid": { "type": "string" }
+        }
+      },
+      "Result": {
+        "type": "object",
+        "properties": {
+          "uid": { "type": "string" },
+          "score": { "type": "string" },
+          "finishedAt": { "type": "string" },
+          "user": {
+            "type": "object",
+            "properties": {
+              "uid": { "type": "string" },
+              "email": { "type": "string" },
+              "fullName": { "type": "string" }
+            }
+          },
+          "quiz": {
+            "type": "object",
+            "properties": {
+              "uid": { "type": "string" },
+              "title": { "type": "string" },
+              "createdBy": { "type": "string" }
+            }
+          }
         }
       }
     }
