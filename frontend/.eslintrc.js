@@ -53,6 +53,7 @@ module.exports = {
     'no-empty-pattern': 1,
     'no-shadow': 0,
     'prettier/prettier': 0,
+    '@typescript-eslint/no-misused-promises': 0,
     '@typescript-eslint/naming-convention': [
       'error',
       {

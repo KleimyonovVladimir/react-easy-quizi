@@ -18,6 +18,9 @@ services:
       - mysql
     ports:
       - 4000:4000
+    volumes:
+      - ./:/usr/src/app
+      - /usr/src/app/node_modules # Remove this if you have pure JS dependencies
   mysql:
     container_name: mysql
     image: mysql:8.0

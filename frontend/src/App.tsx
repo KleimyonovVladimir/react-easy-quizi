@@ -5,7 +5,7 @@ const UnauthorizedApp = React.lazy(async () => await import('./UnauthorizedApp')
 const AuthenticatedApp = React.lazy(async () => await import('./AuthenticatedApp'))
 
 const App: React.FC = () => {
-  const isUserExist = true
+  const isUserExist = false
 
   return (
     <Suspense fallback={<>loading</>}>
@@ -23,15 +23,3 @@ const App: React.FC = () => {
 }
 
 export default App
-
-// if(user){
-//   // Авторизованная
-//   <AppNavigation>
-//     routs...
-//   </AppNavigation>
-// } else {
-//   // Не авторизованная
-//   <UnauthorizedWrapper>
-//     routs...
-//   </UnauthorizedWrapper>
-// }
