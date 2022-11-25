@@ -1,4 +1,5 @@
 export interface Question {
+  uid?: string;
   question: string;
   answers: Record<number, string>;
   rightAnswers: Array<number>;
@@ -16,5 +17,6 @@ export interface QuestionDB {
 }
 
 export interface Quiz<T = Question> extends BaseQuiz {
+  uid?: string;
   questions: Array<T>;
 }
