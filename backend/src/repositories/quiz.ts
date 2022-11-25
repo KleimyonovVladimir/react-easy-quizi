@@ -6,7 +6,6 @@ import { Quiz } from "../types";
 
 export const includeUser = {
   model: UserModel,
-
   attributes: [UserField.Uid, UserField.Email, UserField.FullName],
 };
 
