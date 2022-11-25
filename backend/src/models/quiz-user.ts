@@ -21,12 +21,12 @@ const QuizUserModel = sequelize.define<Model<IQuizUser>>("quiz-user", {
     defaultValue: DataTypes.UUIDV4,
   },
   [QuizUserField.UserId]: {
-    type: DataTypes.STRING,
+    type: DataTypes.UUID,
     field: "user_uid",
     defaultValue: "",
   },
   [QuizUserField.QuizId]: {
-    type: DataTypes.STRING,
+    type: DataTypes.UUID,
     field: "quiz_uid",
     defaultValue: "",
   },

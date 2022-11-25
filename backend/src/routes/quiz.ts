@@ -11,6 +11,7 @@ import { UserQuizRepository } from "../repositories/user-quiz";
 import { Question, QuestionDB, Quiz } from "../types";
 import { clearAnswersInQuiz } from "../utils/removeAnswersFromQuiz";
 import { isModerator } from "../middleware/is-moderator";
+import { ResultField } from "../models/results";
 
 const router = Router();
 
@@ -96,6 +97,18 @@ router.delete("/quizzes/delete/:id/", isModerator, async (req, res) => {
   }
 });
 
+router.post("/quizzes/results", async (req, res) => {
+  try {
+    const { userUid, quizUid } = req.body;
+
+    const results = await resultRepository.getAll({ userUid, quizUid });
+
+    res.status(200).send(results);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
 router.post("/quizzes/result/send", async (req, res) => {
   try {
     const { uid: quizId, questions } = req.body as Quiz;
@@ -144,14 +157,16 @@ router.post("/quizzes/result/send", async (req, res) => {
         return acc;
       }, 0);
 
-      resultRepository.create({
-        score: `${(score / quiz.questions.length) * 100}%`,
-        quizUserId: quizUserIds.toJSON().uid,
+      const scoreInPercent = `${(score / quiz.questions.length) * 100}%`;
+
+      const result = await resultRepository.create({
+        [ResultField.Score]: scoreInPercent,
+        [ResultField.UserUid]: quizUserIds.toJSON()[ResultField.UserUid],
+        [ResultField.QuizUid]: quizUserIds.toJSON()[ResultField.QuizUid],
+        [ResultField.FinishedAt]: new Date(),
       });
 
-      res
-        .status(200)
-        .send({ score: `${(score / quiz.questions.length) * 100}%` });
+      res.status(200).send(result?.toJSON());
     }
   } catch (error) {
     res.status(500).send(error);
