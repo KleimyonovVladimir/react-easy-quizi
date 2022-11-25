@@ -1,10 +1,8 @@
 import { UserModel } from "./user";
 import { QuizModel } from "./quiz";
-import { ResultModel } from "./results";
-import { ResultDetailsModel } from "./resultDetails";
 import { QuestionModel } from "./question";
-import { OptionModel } from "./option";
 import { QuizUserModel } from "./quiz-user";
+import { ResultModel } from "./results";
 
 export const initModels = async () => {
   // User
@@ -28,15 +26,11 @@ export const initModels = async () => {
   });
   QuestionModel.belongsTo(QuizModel);
 
-  // Option
-  QuestionModel.hasMany(OptionModel);
-  OptionModel.belongsTo(QuestionModel);
-
-  // Result
-  ResultModel.hasMany(ResultDetailsModel);
-  ResultDetailsModel.belongsTo(ResultModel);
+  ResultModel.belongsTo(QuizModel);
+  ResultModel.belongsTo(UserModel);
 
   await UserModel.sync();
   await QuizModel.sync();
   await QuestionModel.sync();
+  await ResultModel.sync();
 };

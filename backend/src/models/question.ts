@@ -32,7 +32,7 @@ const QuestionModel = sequelize.define<Model<IQuestion>>("question", {
 QuestionModel.prototype.toJSON = function () {
   let values = { ...this?.get() };
 
-  const parsedValues = { ...values, question: JSON.parse(values.questionJSON) };
+  const parsedValues = { ...values, ...JSON.parse(values.questionJSON) };
 
   delete parsedValues.questionJSON;
   return parsedValues;

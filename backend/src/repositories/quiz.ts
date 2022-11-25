@@ -6,7 +6,6 @@ import { Quiz } from "../types";
 
 export const includeUser = {
   model: UserModel,
-
   attributes: [UserField.Uid, UserField.Email, UserField.FullName],
 };
 
@@ -22,6 +21,10 @@ export class QuizRepository {
     if (withReturn) {
       return await this.getOne({ [QuizField.Title]: quiz[QuizField.Title] });
     }
+  }
+
+  findByPk(primaryKey?: string) {
+    return QuizModel.findByPk(primaryKey, { include: [includeQuestion] });
   }
 
   getOne(conditions?: WhereOptions<IQuiz>) {

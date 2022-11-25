@@ -1,17 +1,24 @@
 import Router from "express";
+import { Model } from "sequelize";
 import { QuizField } from "../models/quiz";
 import { IUser, UserField } from "../models/user";
 import { QuestionField } from "../models/question";
+import { QuizUserField } from "../models/quiz-user";
 import { QuizRepository } from "../repositories/quiz";
 import { UserRepository } from "../repositories/user";
-import { Question } from "../types";
+import { ResultRepository } from "../repositories/result";
+import { UserQuizRepository } from "../repositories/user-quiz";
+import { Question, QuestionDB, Quiz } from "../types";
 import { clearAnswersInQuiz } from "../utils/removeAnswersFromQuiz";
 import { isModerator } from "../middleware/is-moderator";
+import { ResultField } from "../models/results";
 
 const router = Router();
 
 const quizRepository = new QuizRepository();
 const userRepository = new UserRepository();
+const resultRepository = new ResultRepository();
+const userQuizRepository = new UserQuizRepository();
 
 router.get("/quizzes", async (req, res) => {
   try {
@@ -84,6 +91,82 @@ router.delete("/quizzes/delete/:id/", isModerator, async (req, res) => {
       res.sendStatus(200);
     } else {
       res.status(400).send(`No quiz with id: ${id}`);
+    }
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
+router.post("/quizzes/results", async (req, res) => {
+  try {
+    const { userUid, quizUid } = req.body;
+
+    const results = await resultRepository.getAll({ userUid, quizUid });
+
+    res.status(200).send(results);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
+router.post("/quizzes/result/send", async (req, res) => {
+  try {
+    const { uid: quizId, questions } = req.body as Quiz;
+    const { user } = req || {};
+
+    const userId = (user as IUser)?.[UserField.Uid];
+
+    const foundedUser = await userRepository.findByPk(userId);
+    const foundedQuiz = await quizRepository.findByPk(quizId);
+
+    if (foundedUser && foundedQuiz) {
+      // GET or INSERT the association in quiz-users table
+      const quizUserIds =
+        (await userQuizRepository.getOne({
+          [QuizUserField.UserId]: userId,
+          [QuizUserField.QuizId]: quizId,
+        })) || (await (foundedQuiz as any)?.addUser(foundedUser))[0];
+
+      const quiz = foundedQuiz.toJSON() as Quiz<QuestionDB>;
+
+      const score = questions.reduce((acc, userQuestion) => {
+        const [question] = quiz.questions
+          .map((item) => (item as unknown as Model<QuestionDB>)?.toJSON())
+          .filter(
+            (item) => item.uid === userQuestion.uid
+          ) as unknown as Question[];
+
+        const rightAnswers = question.rightAnswers || [];
+        const userAnswers = userQuestion?.rightAnswers || [];
+
+        if (
+          rightAnswers.length === 1 &&
+          userAnswers.length === 1 &&
+          userAnswers[0] === rightAnswers[0]
+        ) {
+          return acc + 1;
+        }
+
+        if (rightAnswers.length > 1) {
+          const joint = userAnswers.filter((answer) =>
+            rightAnswers.includes(answer)
+          );
+          return acc + joint.length / rightAnswers.length;
+        }
+
+        return acc;
+      }, 0);
+
+      const scoreInPercent = `${(score / quiz.questions.length) * 100}%`;
+
+      const result = await resultRepository.create({
+        [ResultField.Score]: scoreInPercent,
+        [ResultField.UserUid]: quizUserIds.toJSON()[ResultField.UserUid],
+        [ResultField.QuizUid]: quizUserIds.toJSON()[ResultField.QuizUid],
+        [ResultField.FinishedAt]: new Date(),
+      });
+
+      res.status(200).send(result?.toJSON());
     }
   } catch (error) {
     res.status(500).send(error);
