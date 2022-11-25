@@ -33,7 +33,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/UsrLoginRequest"
+                "$ref": "#/components/schemas/LoginRequest"
               }
             }
           }
@@ -92,7 +92,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/User"
+                "$ref": "#/components/schemas/UserCreate"
               }
             }
           }
@@ -244,21 +244,37 @@
     "schemas": {
       "User": {
         "type": "object",
-        "required": ["fullName", "email", "password", "status"],
+        "required": ["fullName", "email", "status"],
         "properties": {
           "email": { "type": "string" },
-          "password": { "type": "string" },
           "fullName": { "type": "string" },
           "status": { "type": "string" }
         },
         "example": {
           "fullName": "Obi Wan Kenobi",
           "email": "ObiWanKenobi@easy-quizi.com",
-          "status": "teacher",
-          "password": "123456"
+          "status": "teacher"
         }
       },
-      "UsrLoginRequest": {
+      "UserCreate": {
+        "allOf": [
+          { "$ref": "#/components/schemas/User" },
+          {
+            "type": "object",
+            "required": ["password"],
+            "properties": {
+              "password": { "type": "string" }
+            },
+            "example": {
+              "fullName": "Obi Wan Kenobi",
+              "email": "ObiWanKenobi@easy-quizi.com",
+              "status": "teacher",
+              "password": "123456"
+            }
+          }
+        ]
+      },
+      "LoginRequest": {
         "type": "object",
         "required": ["email", "password"],
         "properties": {
