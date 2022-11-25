@@ -30,7 +30,7 @@ module.exports = {
     '@typescript-eslint/ban-types': 0,
     '@typescript-eslint/camelcase': 0,
     '@typescript-eslint/no-shadow': 1,
-    "@typescript-eslint/naming-convention": 0,
+    '@typescript-eslint/naming-convention': 0,
     'import/no-anonymous-default-export': 0,
     'import/no-unresolved': 0,
     'react/destructuring-assignment': 1,
@@ -45,8 +45,8 @@ module.exports = {
     'multiline-ternary': 0,
     'react/no-array-index-key': 0,
     // Sort imports
-    "simple-import-sort/imports": "error",
-    "simple-import-sort/exports": "error",
+    'simple-import-sort/imports': 'error',
+    'simple-import-sort/exports': 'error',
     camelcase: 2,
     'no-nested-ternary': 1,
     'no-param-reassign': 2,
@@ -66,30 +66,30 @@ module.exports = {
     ],
     '@typescript-eslint/explicit-function-return-type': [
       'warn',
-      { allowExpressions: true, allowTypedFunctionExpressions: true },
+      { allowExpressions: true, allowTypedFunctionExpressions: true }
     ]
   },
   overrides: [
     // override "simple-import-sort" config
     {
-      files: ["*.js", "*.jsx", "*.ts", "*.tsx"],
+      files: ['*.js', '*.jsx', '*.ts', '*.tsx'],
       rules: {
-        "simple-import-sort/imports": [
-          "error",
+        'simple-import-sort/imports': [
+          'error',
           {
             groups: [
               // Packages `react` related packages come first.
-              ["^react", "^@?\\w"],
+              ['^react', '^@?\\w'],
               // Internal packages.
-              ["^(@|components)(/.*|$)"],
+              ['^(@|components)(/.*|$)'],
               // Side effect imports.
-              ["^\\u0000"],
+              ['^\\u0000'],
               // Parent imports. Put `..` last.
-              ["^\\.\\.(?!/?$)", "^\\.\\./?$"],
+              ['^\\.\\.(?!/?$)', '^\\.\\./?$'],
               // Other relative imports. Put same-folder imports and `.` last.
-              ["^\\./(?=.*/)(?!/?$)", "^\\.(?!/?$)", "^\\./?$"],
+              ['^\\./(?=.*/)(?!/?$)', '^\\.(?!/?$)', '^\\./?$'],
               // Style imports.
-              ["^.+\\.?(css)$"]
+              ['^.+\\.?(css)$']
             ]
           }
         ]
