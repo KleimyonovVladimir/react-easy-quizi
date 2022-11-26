@@ -8,4 +8,13 @@
   padding: 0 15px;
   justify-content: flex-end;
   grid-column-gap: 30px;
+
+  &-content {
+    display: flex;
+    align-items: center;
+
+    &__status {
+      margin-left: 15px;
+    }
+  }
 }

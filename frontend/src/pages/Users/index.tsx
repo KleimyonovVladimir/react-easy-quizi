@@ -10,7 +10,10 @@ import {
 } from '@mui/material'
 import Paper from '@mui/material/Paper'
 import { IUser } from 'api/swaggerGeneratedApi'
+import { userStatues } from 'constants/status'
 import { IResponse } from 'types/api'
+
+import { Status } from 'components/Status'
 
 const Users: FC = () => {
   const [users, setUsers] = useState<IUser[]>([])
@@ -56,7 +59,9 @@ const Users: FC = () => {
                   {user.fullName}
                 </TableCell>
                 <TableCell align="left">{user.email}</TableCell>
-                <TableCell>{user.status}</TableCell>
+                <TableCell>
+                  <Status status={userStatues[user.status]} />
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>
