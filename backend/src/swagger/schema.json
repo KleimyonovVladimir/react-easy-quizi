@@ -264,7 +264,7 @@
     "schemas": {
       "User": {
         "type": "object",
-        "required": ["fullName", "email", "status"],
+        "required": ["uid", "fullName", "email", "status"],
         "properties": {
           "uid": { "type": "string" },
           "email": { "type": "string" },
