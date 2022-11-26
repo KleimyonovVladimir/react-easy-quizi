@@ -266,6 +266,7 @@
         "type": "object",
         "required": ["fullName", "email", "status"],
         "properties": {
+          "uid": { "type": "string" },
           "email": { "type": "string" },
           "fullName": { "type": "string" },
           "status": { "type": "string" }
