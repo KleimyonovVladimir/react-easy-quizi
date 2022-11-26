@@ -26,7 +26,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "generate:specs": "npx @manifoldco/swagger-to-ts ../backend/src/swagger/schema.json --output src/api/swaggerGeneratedApi/schema.ts"
   },
   "browserslist": {
     "production": [

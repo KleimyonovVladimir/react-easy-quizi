@@ -1,11 +1,14 @@
-import React, { Suspense } from 'react'
+import React, { FC, Suspense } from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { useAuthContext } from 'context/AuthContext'
 
-const UnauthorizedApp = React.lazy(async () => await import('./UnauthorizedApp'))
+const UnauthenticatedApp = React.lazy(async () => await import('./UnauthenticatedApp'))
 const AuthenticatedApp = React.lazy(async () => await import('./AuthenticatedApp'))
 
-const App: React.FC = () => {
-  const isUserExist = false
+const App: FC = () => {
+  const authContext = useAuthContext()
+
+  const isUserExist = Boolean(authContext.user)
 
   return (
     <Suspense fallback={<>loading</>}>
@@ -14,7 +17,7 @@ const App: React.FC = () => {
           {isUserExist ? (
             <Route path="*" element={<AuthenticatedApp />} />
           ) : (
-            <Route path="*" element={<UnauthorizedApp />} />
+            <Route path="*" element={<UnauthenticatedApp />} />
           )}
         </Routes>
       </BrowserRouter>

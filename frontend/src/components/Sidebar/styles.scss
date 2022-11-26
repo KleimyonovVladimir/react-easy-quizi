@@ -8,11 +8,7 @@
   color: $ui-color-white;
 
   &-list {
-    position: absolute;
-    top: 50%;
-    left: 20%;
-    transform: translate(-20%, -50%);
-    width: 100%;
+    padding: 50px 0;
   }
 
   &-item {
@@ -20,8 +16,13 @@
   }
 
   &-link {
+    display: flex;
+    align-items: center;
     font-size: 20px;
     opacity: 0.8;
+    & svg {
+      margin-right: 10px;
+    }
 
     &:hover,
     &.active {
@@ -32,9 +33,6 @@
   &-logo {
     width: 160px;
     height: 35px;
-    position: absolute;
-    top: 10%;
-    left: 50%;
-    transform: translate(-50%, -10%);
+    margin: 15px;
   }
 }
