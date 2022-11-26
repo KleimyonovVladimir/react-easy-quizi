@@ -1,5 +1,7 @@
 import { FC, useState } from 'react'
 import { Button } from '@mui/material'
+import { ILoginRequest, IUser } from 'api/swaggerGeneratedApi'
+import { useAuthContext } from 'context/AuthContext'
 
 import Input from 'components/Input'
 
@@ -8,7 +10,9 @@ import './styles.scss'
 const mainCssClass = 'form'
 
 const SignIn: FC = () => {
-  const [credentials, setCredentials] = useState({
+  const authContext = useAuthContext()
+
+  const [credentials, setCredentials] = useState<ILoginRequest>({
     email: '',
     password: ''
   })
@@ -28,8 +32,9 @@ const SignIn: FC = () => {
         credentials: 'include',
         body: JSON.stringify(credentials)
       })
-      const result = await response.json()
-      console.log('🚀 ~ buttonClickHandler ~ result', result)
+
+      const user: IUser = await response.json()
+      authContext.authUserChangeHandler(user)
     } catch (error) {
       console.log('🚀 ~ buttonClickHandler ~ error', error)
     }

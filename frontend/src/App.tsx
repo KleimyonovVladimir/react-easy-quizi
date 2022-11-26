@@ -1,5 +1,6 @@
 import React, { Suspense } from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { AuthContextProvider } from 'context/AuthContext'
 
 const UnauthorizedApp = React.lazy(async () => await import('./UnauthorizedApp'))
 const AuthenticatedApp = React.lazy(async () => await import('./AuthenticatedApp'))
@@ -9,15 +10,17 @@ const App: React.FC = () => {
 
   return (
     <Suspense fallback={<>loading</>}>
-      <BrowserRouter>
-        <Routes>
-          {isUserExist ? (
-            <Route path="*" element={<AuthenticatedApp />} />
-          ) : (
-            <Route path="*" element={<UnauthorizedApp />} />
-          )}
-        </Routes>
-      </BrowserRouter>
+      <AuthContextProvider>
+        <BrowserRouter>
+          <Routes>
+            {isUserExist ? (
+              <Route path="*" element={<AuthenticatedApp />} />
+            ) : (
+              <Route path="*" element={<UnauthorizedApp />} />
+            )}
+          </Routes>
+        </BrowserRouter>
+      </AuthContextProvider>
     </Suspense>
   )
 }
