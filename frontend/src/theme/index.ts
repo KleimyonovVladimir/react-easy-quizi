@@ -12,7 +12,6 @@ export const theme = createTheme({
       styleOverrides: {
         root: {
           borderRadius: 6,
-          background: colors.darkBlue,
           textTransform: 'initial',
           fontWeight: 500,
           padding: '17px 0',
@@ -21,9 +20,24 @@ export const theme = createTheme({
 
           '&:hover': {
             background: colors.darkBlue,
-            opacity: 0.8,
-            boxShadow: 'none'
+            boxShadow: 'none',
+            color: colors.white,
+            borderColor: colors.darkBlue
           }
+        },
+        contained: {
+          background: colors.darkBlue,
+
+          '&:hover': {
+            opacity: 0.8
+          }
+        },
+        outlined: {
+          borderColor: colors.darkBlue,
+          color: colors.darkBlue
+        },
+        sizeSmall: {
+          padding: '8px 16px'
         }
       }
     },

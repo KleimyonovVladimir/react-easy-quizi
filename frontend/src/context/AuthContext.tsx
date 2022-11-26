@@ -1,6 +1,5 @@
 import { createContext, FC, useContext, useState } from 'react'
 import { IUser } from 'api/swaggerGeneratedApi'
-import { noop } from 'utils/noop'
 
 interface IAuthContextProviderProps {
   children: React.ReactNode
@@ -11,10 +10,7 @@ interface IAuthContext {
   authUserChangeHandler: (user: IUser | null) => void
 }
 
-const AuthContext = createContext<IAuthContext>({
-  user: null,
-  authUserChangeHandler: noop
-})
+const AuthContext = createContext<IAuthContext | undefined>(undefined)
 
 export const AuthContextProvider: FC<IAuthContextProviderProps> = ({ children }) => {
   const userLS = localStorage.getItem('authUser')
@@ -23,7 +19,11 @@ export const AuthContextProvider: FC<IAuthContextProviderProps> = ({ children })
 
   const authUserChangeHandler = (user: IUser | null): void => {
     setAuthUser(user)
-    localStorage.setItem('authUser', JSON.stringify(user))
+    if (user == null) {
+      localStorage.removeItem('authUser')
+    } else {
+      localStorage.setItem('authUser', JSON.stringify(user))
+    }
   }
 
   return (

@@ -5,7 +5,7 @@
 
 export interface components {
   schemas: {
-    User: { email: string; fullName: string; status: string }
+    User: { uid?: string; email: string; fullName: string; status: string }
     UserCreate: components['schemas']['User'] & { password: string }
     LoginRequest: { email: string; password: string }
     Question: {
