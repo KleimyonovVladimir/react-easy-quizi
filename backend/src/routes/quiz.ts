@@ -8,10 +8,11 @@ import { QuizRepository } from "../repositories/quiz";
 import { UserRepository } from "../repositories/user";
 import { ResultRepository } from "../repositories/result";
 import { UserQuizRepository } from "../repositories/user-quiz";
-import { Question, QuestionDB, Quiz } from "../types";
+import { Pagination, Question, QuestionDB, Quiz } from "../types";
 import { clearAnswersInQuiz } from "../utils/removeAnswersFromQuiz";
 import { isModerator } from "../middleware/is-moderator";
 import { ResultField } from "../models/results";
+import { parsePagination } from "../utils/parsePagination";
 
 const router = Router();
 
@@ -22,13 +23,18 @@ const userQuizRepository = new UserQuizRepository();
 
 router.get("/quizzes", async (req, res) => {
   try {
+    const { page, pageSize } = req.query as Pagination;
+
     // Getting all quizzes
-    const quizzes = await quizRepository.getAll();
+    const quizzes = await quizRepository.getAll(
+      parsePagination({ page, pageSize })
+    );
 
     // Return status 200 and quizzes back to the client
-    res
-      .status(200)
-      .send(quizzes.map((quiz) => clearAnswersInQuiz(quiz.toJSON())));
+    res.status(200).send({
+      ...quizzes,
+      data: quizzes.data.map((quiz) => clearAnswersInQuiz(quiz.toJSON())),
+    });
   } catch (error) {
     res.status(500).send(error);
   }

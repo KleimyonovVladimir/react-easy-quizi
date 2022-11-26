@@ -1,5 +1,6 @@
 import { WhereOptions } from "sequelize";
 import { UserModel, IUser } from "../models/user";
+import { SequelizePagination } from "../types";
 
 export class UserRepository {
   async create(user: IUser, withReturnUser: boolean = true) {
@@ -16,8 +17,13 @@ export class UserRepository {
     });
   }
 
-  getAll() {
-    return UserModel.findAll();
+  async getAll(pagination: SequelizePagination) {
+    return {
+      total: await UserModel.count(),
+      data: await UserModel.findAll({
+        ...pagination,
+      }),
+    };
   }
 
   findByPk(primaryKey?: string) {
