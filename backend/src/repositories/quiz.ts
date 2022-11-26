@@ -2,7 +2,7 @@ import { WhereOptions } from "sequelize";
 import { IQuiz, QuizField, QuizModel } from "../models/quiz";
 import { QuestionModel, QuestionField } from "../models/question";
 import { UserModel, UserField } from "../models/user";
-import { Quiz } from "../types";
+import { Quiz, SequelizePagination } from "../types";
 
 export const includeUser = {
   model: UserModel,
@@ -34,10 +34,14 @@ export class QuizRepository {
     });
   }
 
-  getAll() {
-    return QuizModel.findAll({
-      include: [includeQuestion],
-    });
+  async getAll(pagination: SequelizePagination) {
+    return {
+      total: await QuizModel.count(),
+      data: await QuizModel.findAll({
+        include: [includeQuestion],
+        ...pagination,
+      }),
+    };
   }
 
   delete(conditions: WhereOptions<IQuiz>) {

@@ -67,15 +67,25 @@
       "get": {
         "tags": ["User"],
         "summary": "Get all users",
+        "parameters": [
+          { "in": "query", "name": "page", "schema": { "type": "integer" } },
+          { "in": "query", "name": "pageSize", "schema": { "type": "integer" } }
+        ],
         "responses": {
           "200": {
             "description": "Successful operation",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/User"
+                  "type": "object",
+                  "properties": {
+                    "total": { "type": "number" },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/User"
+                      }
+                    }
                   }
                 }
               }
@@ -115,15 +125,25 @@
       "get": {
         "tags": ["Quiz"],
         "summary": "Get all quizzes",
+        "parameters": [
+          { "in": "query", "name": "page", "schema": { "type": "integer" } },
+          { "in": "query", "name": "pageSize", "schema": { "type": "integer" } }
+        ],
         "responses": {
           "200": {
             "description": "Successful operation",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Quiz"
+                  "type": "object",
+                  "properties": {
+                    "total": { "type": "number" },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Quiz"
+                      }
+                    }
                   }
                 }
               }

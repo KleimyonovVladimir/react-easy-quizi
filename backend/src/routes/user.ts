@@ -1,7 +1,9 @@
 import Router from "express";
 import { isAdmin } from "../middleware/is-moderator";
 import { UserRepository } from "../repositories/user";
+import { Pagination } from "../types";
 import { generateUserToDB } from "../utils/createMockData";
+import { parsePagination } from "../utils/parsePagination";
 
 const router = Router();
 
@@ -32,11 +34,14 @@ router.post("/users/create", isAdmin, async (req, res) => {
 
 router.get("/users", isAdmin, async (req, res) => {
   try {
+    const { page, pageSize } = req.query as Pagination;
+    const paging = parsePagination({ page, pageSize });
+
     // @TMP Add mock users for developing (Remove in the future)
-    await generateUserToDB();
+    await generateUserToDB(paging);
 
     // Getting all users
-    const users = await userRepository.getAll();
+    const users = await userRepository.getAll(paging);
 
     // Return status 200 and users back to the client
     res.status(200).send(users);
