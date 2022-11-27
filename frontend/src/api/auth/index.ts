@@ -1,14 +1,11 @@
 import { ILoginRequest, IUser } from 'api/swaggerGeneratedApi'
-import axios from 'axios'
-
-const LOGIN_URL = 'http://localhost:4000/login'
-const LOGOUT_URL = 'http://localhost:4000/logout'
+import { client } from 'config/client'
 
 export const login = async (credentials: ILoginRequest): Promise<IUser> => {
-  const response = await axios.post(LOGIN_URL, credentials, { withCredentials: true })
+  const response = await client.post('/login', credentials)
   return response.data
 }
 
 export const logout = async (): Promise<void> => {
-  await axios.post(LOGOUT_URL)
+  await client.post('/logout')
 }

@@ -20,12 +20,8 @@ const Users: FC = () => {
 
   useEffect(() => {
     const get = async (): Promise<void> => {
-      try {
-        const usersResponse = await getUsers()
-        setUsers(usersResponse.data)
-      } catch (error) {
-        console.log('🚀 ~ getUsers ~ error', error)
-      }
+      const usersResponse = await getUsers()
+      setUsers(usersResponse.data)
     }
 
     void get()
