@@ -55,6 +55,13 @@ export const theme = createTheme({
           }
         }
       }
+    },
+    MuiSkeleton: {
+      styleOverrides: {
+        root: {
+          borderRadius: '5px'
+        }
+      }
     }
   }
 })
