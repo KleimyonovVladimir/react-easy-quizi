@@ -10,8 +10,8 @@ import {
 } from '@mui/material'
 import Paper from '@mui/material/Paper'
 import { IUser } from 'api/swaggerGeneratedApi'
+import { getUsers } from 'api/users'
 import { userStatues } from 'constants/status'
-import { IResponse } from 'types/api'
 
 import { Status } from 'components/Status'
 
@@ -19,23 +19,16 @@ const Users: FC = () => {
   const [users, setUsers] = useState<IUser[]>([])
 
   useEffect(() => {
-    const getUsers = async (): Promise<void> => {
+    const get = async (): Promise<void> => {
       try {
-        const usersResponse = await fetch('http://localhost:4000/users', {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          credentials: 'include'
-        })
-        const result = (await usersResponse.json()) as IResponse<IUser>
-        setUsers(result.data)
+        const usersResponse = await getUsers()
+        setUsers(usersResponse.data)
       } catch (error) {
         console.log('🚀 ~ getUsers ~ error', error)
       }
     }
 
-    void getUsers()
+    void get()
   }, [])
 
   return (

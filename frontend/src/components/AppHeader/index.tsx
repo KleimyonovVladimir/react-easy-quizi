@@ -1,5 +1,6 @@
 import { FC } from 'react'
 import { Button } from '@mui/material'
+import { logout } from 'api/auth'
 import { userStatues } from 'constants/status'
 import { useAuthContext } from 'context/AuthContext'
 
@@ -14,13 +15,7 @@ export const AppHeader: FC = () => {
 
   const onClickLogOut = async (): Promise<void> => {
     try {
-      await fetch('http://localhost:4000/logout', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        credentials: 'include'
-      })
+      await logout()
 
       authContext.authUserChangeHandler(null)
     } catch (error) {
