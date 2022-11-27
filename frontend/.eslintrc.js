@@ -48,6 +48,7 @@ module.exports = {
     'simple-import-sort/imports': 'error',
     'simple-import-sort/exports': 'error',
     camelcase: 2,
+    '@typescript-eslint/strict-boolean-expressions': 0,
     'no-nested-ternary': 1,
     'no-param-reassign': 2,
     'no-empty-pattern': 1,

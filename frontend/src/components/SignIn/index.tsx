@@ -1,6 +1,7 @@
 import { FC, useState } from 'react'
 import { Button } from '@mui/material'
-import { ILoginRequest, IUser } from 'api/swaggerGeneratedApi'
+import { login } from 'api/auth'
+import { ILoginRequest } from 'api/swaggerGeneratedApi'
 import { useAuthContext } from 'context/AuthContext'
 
 import Input from 'components/Input'
@@ -23,21 +24,8 @@ const SignIn: FC = () => {
   }
 
   const buttonClickHandler = async (): Promise<void> => {
-    try {
-      const response = await fetch('http://localhost:4000/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        credentials: 'include',
-        body: JSON.stringify(credentials)
-      })
-
-      const user: IUser = await response.json()
-      authContext.authUserChangeHandler(user)
-    } catch (error) {
-      console.log('🚀 ~ buttonClickHandler ~ error', error)
-    }
+    const response = await login(credentials)
+    authContext.authUserChangeHandler(response)
   }
 
   return (
