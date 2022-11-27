@@ -14,13 +14,8 @@ export const AppHeader: FC = () => {
   const authContext = useAuthContext()
 
   const onClickLogOut = async (): Promise<void> => {
-    try {
-      await logout()
-
-      authContext.authUserChangeHandler(null)
-    } catch (error) {
-      console.log('🚀 ~ buttonClickHandler ~ error', error)
-    }
+    await logout()
+    authContext.authUserChangeHandler(null)
   }
 
   return (

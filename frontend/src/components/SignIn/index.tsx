@@ -24,13 +24,8 @@ const SignIn: FC = () => {
   }
 
   const buttonClickHandler = async (): Promise<void> => {
-    try {
-      const response = await login(credentials)
-
-      authContext.authUserChangeHandler(response)
-    } catch (error) {
-      console.log('🚀 ~ buttonClickHandler ~ error', error)
-    }
+    const response = await login(credentials)
+    authContext.authUserChangeHandler(response)
   }
 
   return (
