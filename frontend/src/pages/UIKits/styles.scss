@@ -1,6 +1,9 @@
 .ui-kits {
   &-group {
     margin-bottom: 40px;
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 5px;
 
     &__items {
       display: flex;
@@ -9,5 +12,9 @@
       grid-gap: 20px;
       margin-top: 15px;
     }
+  }
+  &-subgroup {
+    display: block;
+    width: 100%;
   }
 }

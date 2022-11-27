@@ -7,6 +7,11 @@ export const theme = createTheme({
     fontFamily: 'Poppins, sans-serif',
     fontSize: 16
   },
+  palette: {
+    primary: {
+      main: colors.darkBlue
+    }
+  },
   components: {
     MuiCircularProgress: {
       styleOverrides: {
@@ -31,26 +36,15 @@ export const theme = createTheme({
           transition: 'all 0.1s ease',
 
           '&:hover': {
-            background: colors.darkBlue,
-            boxShadow: 'none',
-            color: colors.white,
-            borderColor: colors.darkBlue
+            boxShadow: 'none'
           }
         },
         contained: {
-          background: colors.darkBlue,
-
           '&:hover': {
             opacity: 0.8
           }
         },
-        outlined: {
-          borderColor: colors.darkBlue,
-          color: colors.darkBlue
-        },
         text: {
-          color: colors.darkBlue,
-
           '&:hover': {
             background: 'transparent',
             color: colors.darkBlue,

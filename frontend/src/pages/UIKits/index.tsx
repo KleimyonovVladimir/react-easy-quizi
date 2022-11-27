@@ -4,6 +4,7 @@ import { userStatues } from 'constants/status'
 
 import { Loader } from 'components/Loader'
 import { Status } from 'components/Status'
+import { AddButton, EditButton, RefreshButton, RemoveButton } from 'components/WrappedButtons'
 
 import './styles.scss'
 
@@ -27,6 +28,15 @@ const UIKits: React.FC = () => {
           <LoadingButton size="small" variant="contained" loading>
             Loading button
           </LoadingButton>
+          <div className={`${mainCssClass}-subgroup`}>
+            <Typography variant="subtitle1">Icon Buttons</Typography>
+            <div className={`${mainCssClass}-group__items`}>
+              <RefreshButton />
+              <RemoveButton />
+              <EditButton />
+              <AddButton />
+            </div>
+          </div>
         </div>
       </div>
       <div className={`${mainCssClass}-group`}>
