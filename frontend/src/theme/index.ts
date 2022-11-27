@@ -8,6 +8,18 @@ export const theme = createTheme({
     fontSize: 16
   },
   components: {
+    MuiCircularProgress: {
+      styleOverrides: {
+        circle: {
+          r: 18,
+          strokeWidth: 5
+        },
+        root: {
+          color: colors.darkPink,
+          borderRadius: '7px'
+        }
+      }
+    },
     MuiButton: {
       styleOverrides: {
         root: {
@@ -35,6 +47,15 @@ export const theme = createTheme({
         outlined: {
           borderColor: colors.darkBlue,
           color: colors.darkBlue
+        },
+        text: {
+          color: colors.darkBlue,
+
+          '&:hover': {
+            background: 'transparent',
+            color: colors.darkBlue,
+            opacity: 0.6
+          }
         },
         sizeSmall: {
           padding: '8px 16px'

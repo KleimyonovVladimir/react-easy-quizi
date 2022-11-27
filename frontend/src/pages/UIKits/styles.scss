@@ -1,0 +1,13 @@
+.ui-kits {
+  &-group {
+    margin-bottom: 40px;
+
+    &__items {
+      display: flex;
+      flex-flow: wrap;
+      align-items: center;
+      grid-gap: 20px;
+      margin-top: 15px;
+    }
+  }
+}
