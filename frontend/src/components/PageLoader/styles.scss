@@ -1,0 +1,12 @@
+.page-loader-container {
+  position: relative;
+  height: 100%;
+  width: 100%;
+}
+
+.page-loader {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}

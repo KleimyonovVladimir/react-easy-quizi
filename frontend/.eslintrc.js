@@ -49,6 +49,7 @@ module.exports = {
     'simple-import-sort/exports': 'error',
     camelcase: 2,
     '@typescript-eslint/strict-boolean-expressions': 0,
+    '@typescript-eslint/space-before-function-paren': 0,
     'no-nested-ternary': 1,
     'no-param-reassign': 2,
     'no-empty-pattern': 1,
