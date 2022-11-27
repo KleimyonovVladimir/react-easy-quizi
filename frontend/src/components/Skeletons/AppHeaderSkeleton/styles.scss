@@ -1,11 +1,14 @@
-@import 'styles/variables';
+@import 'styles/variables/_colors.module.scss';
 
-.header {
-  background-color: $ui-color-white;
-  height: $ui-header-height;
+.appHeaderSkeleton {
+  height: 65px;
+  width: calc(100% - 10px);
+  background: $ui-color-light-gray;
+
   display: flex;
   align-items: center;
   padding: 0 15px;
+  margin-left: 10px;
   justify-content: flex-end;
   grid-column-gap: 30px;
 

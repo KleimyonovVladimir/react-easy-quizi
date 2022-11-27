@@ -2,10 +2,12 @@ $ui-color-dark-blue: #000842;
 $ui-color-white: #fff;
 $ui-color-dark-grey: #282828;
 $ui-color-dark-purple: #673ab7;
+$ui-color-light-gray: #f8f8f8;
 
 :export {
   white: $ui-color-white;
   darkBlue: $ui-color-dark-blue;
   darkGrey: $ui-color-dark-grey;
   darkPurple: $ui-color-dark-purple;
+  lightGray: $ui-color-light-gray;
 }
