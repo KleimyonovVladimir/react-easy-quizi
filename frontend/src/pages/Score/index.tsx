@@ -1,14 +1,9 @@
 import { FC } from 'react'
-import { Typography } from '@mui/material'
+
+import PageTitle from 'components/PageTitle'
 
 const Score: FC = () => {
-  return (
-    <div>
-      <Typography variant="h6" gutterBottom>
-        Score
-      </Typography>
-    </div>
-  )
+  return <PageTitle title="Score" />
 }
 
 export default Score
