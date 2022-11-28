@@ -160,7 +160,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/QuizBase"
+                "$ref": "#/components/schemas/CreateQuiz"
               }
             }
           }
@@ -172,6 +172,36 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/Quiz"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/quizzes/details/{id}": {
+      "get": {
+        "tags": ["Quiz"],
+        "summary": "Get quiz details",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QuizDetails"
                 }
               }
             }
@@ -320,7 +350,21 @@
           "rightAnswers": { "type": "array", "items": { "type": "string" } }
         }
       },
-      "QuizBase": {
+      "Quiz": {
+        "type": "object",
+        "required": ["uid", "title", "createdBy", "questions"],
+        "properties": {
+          "uid": { "type": "string" },
+          "title": { "type": "string" },
+          "createdBy": { "type": "string" },
+          "time": { "type": "string" }
+        },
+        "example": {
+          "title": "Web developing UI/UX 1",
+          "time": "25"
+        }
+      },
+      "CreateQuiz": {
         "type": "object",
         "required": ["title", "questions"],
         "properties": {
@@ -356,17 +400,11 @@
           ]
         }
       },
-      "Quiz": {
+
+      "QuizDetails": {
         "allOf": [
-          {
-            "type": "object",
-            "required": ["uid"],
-            "properties": {
-              "uid": { "type": "string" },
-              "createdBy": { "type": "string" }
-            }
-          },
-          { "$ref": "#/components/schemas/QuizBase" }
+          { "$ref": "#/components/schemas/Quiz" },
+          { "$ref": "#/components/schemas/CreateQuiz" }
         ]
       },
       "ResultRequest": {
