@@ -38,7 +38,12 @@ export class QuizRepository {
     return {
       total: await QuizModel.count(),
       data: await QuizModel.findAll({
-        include: [includeQuestion],
+        attributes: [
+          QuizField.Uid,
+          QuizField.Title,
+          QuizField.Time,
+          QuizField.CreatedBy,
+        ],
         ...pagination,
       }),
     };

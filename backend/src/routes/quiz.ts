@@ -31,10 +31,27 @@ router.get("/quizzes", async (req, res) => {
     );
 
     // Return status 200 and quizzes back to the client
-    res.status(200).send({
-      ...quizzes,
-      data: quizzes.data.map((quiz) => clearAnswersInQuiz(quiz.toJSON())),
+    res.status(200).send({ ...quizzes, data: quizzes.data });
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
+router.get("/quizzes/details/:id", async (req, res) => {
+  try {
+    const {
+      params: { id },
+    } = req;
+
+    // Getting quiz
+    const foundedQuiz = await quizRepository.getOne({
+      [QuizField.Uid]: id,
     });
+
+    if (!foundedQuiz) return res.status(400).send("Quiz not founded");
+
+    // Return status 200 and quiz back to the client
+    res.status(200).send(clearAnswersInQuiz(foundedQuiz?.toJSON()));
   } catch (error) {
     res.status(500).send(error);
   }
