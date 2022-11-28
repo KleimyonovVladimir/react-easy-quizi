@@ -1,13 +1,8 @@
-import { WhereOptions } from "sequelize";
+import { Sequelize, WhereOptions } from "sequelize";
 import { IQuiz, QuizField, QuizModel } from "../models/quiz";
 import { QuestionModel, QuestionField } from "../models/question";
-import { UserModel, UserField } from "../models/user";
 import { Quiz, SequelizePagination } from "../types";
-
-export const includeUser = {
-  model: UserModel,
-  attributes: [UserField.Uid, UserField.Email, UserField.FullName],
-};
+import { UserField, UserModel } from "../models/user";
 
 export const includeQuestion = {
   model: QuestionModel,
@@ -43,7 +38,19 @@ export class QuizRepository {
           QuizField.Title,
           QuizField.Time,
           QuizField.CreatedBy,
+          [
+            Sequelize.fn("COUNT", Sequelize.col("questions.uid")),
+            "questionsCount",
+          ],
         ],
+        include: [
+          {
+            model: UserModel,
+            attributes: [UserField.Email],
+            foreignKey: QuizField.CreatedBy,
+          },
+        ],
+        group: ["Quiz.uid"],
         ...pagination,
       }),
     };

@@ -357,7 +357,8 @@
           "uid": { "type": "string" },
           "title": { "type": "string" },
           "createdBy": { "type": "string" },
-          "time": { "type": "string" }
+          "time": { "type": "string" },
+          "questionsCount": { "type": "string" }
         },
         "example": {
           "title": "Web developing UI/UX 1",
