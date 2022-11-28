@@ -1,6 +1,7 @@
 import React, { FC, Suspense } from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import { AppNavigationRoutes } from 'constants/paths'
+import QuizBuilder from 'pages/QuizBuilder'
 
 import PageLoader from 'components/PageLoader'
 import Layout from 'components/wrappers/Layout'
@@ -16,6 +17,7 @@ const AuthenticatedApp: FC = () => {
       <Suspense fallback={<PageLoader />}>
         <Routes>
           <Route path={AppNavigationRoutes.Quizzes} element={<Quizzes />} />
+          <Route path={AppNavigationRoutes.QuizCreate} element={<QuizBuilder />} />
           <Route path={AppNavigationRoutes.Users} element={<Users />} />
           <Route path={AppNavigationRoutes.Score} element={<Score />} />
           <Route path={AppNavigationRoutes.UIKits} element={<UIKits />} />
@@ -24,6 +26,7 @@ const AuthenticatedApp: FC = () => {
             path={AppNavigationRoutes.SignIn}
             element={<Navigate to={AppNavigationRoutes.Quizzes} replace />}
           />
+          <Route path="*" element={<div>404 Page Not Found</div>} />
         </Routes>
       </Suspense>
     </Layout>
