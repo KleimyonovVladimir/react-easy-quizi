@@ -1,5 +1,6 @@
 export interface IProps {
-  title: string
+  title?: string
+  text?: string
   onClose: () => void
   onConfirm: () => void
 }

@@ -50,7 +50,7 @@ export const AppHeader: FC = () => {
       </div>
       {isConfirmModalOpen && (
         <ConfirmModal
-          title="Are you sure to log out?"
+          text="Are you sure to log out?"
           onClose={handleConfirmDialog}
           onConfirm={onClickLogOut}
         />
