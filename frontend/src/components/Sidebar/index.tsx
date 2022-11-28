@@ -1,6 +1,6 @@
 import { FC } from 'react'
 import { List, ListItem } from '@mui/material'
-import { menuItems } from 'constants/index'
+import { menuItems } from 'constants/menuItems'
 
 import { Logo } from 'components/Logo'
 import MenuLink from 'components/MenuLink'
