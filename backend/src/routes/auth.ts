@@ -8,7 +8,7 @@ router.post("/login", async (req, res, next) => {
   try {
     passport.authenticate("local", (error, user, info) => {
       if (error) return next(error); // It is null
-      if (!user) return res.status(403).send(info.message);
+      if (!user) return res.status(401).send(info.message);
       res.status(200).send(user);
     })(req, res, next);
   } catch (error) {
