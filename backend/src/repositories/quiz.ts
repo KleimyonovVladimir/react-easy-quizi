@@ -38,19 +38,16 @@ export class QuizRepository {
           QuizField.Title,
           QuizField.Time,
           QuizField.CreatedBy,
-          [
-            Sequelize.fn("COUNT", Sequelize.col("questions.uid")),
-            "questionsCount",
-          ],
+          // [Sequelize.fn("COUNT", Sequelize.col("questions.uid")), "questionsCount"],
         ],
-        include: [
-          {
-            model: UserModel,
-            attributes: [UserField.Email],
-            foreignKey: QuizField.CreatedBy,
-          },
-        ],
-        group: ["Quiz.uid"],
+        // include: [
+        //   {
+        //     model: UserModel,
+        //     attributes: [UserField.Email],
+        //     foreignKey: QuizField.CreatedBy,
+        //   },
+        // ],
+        // group: ["Quiz.uid"],
         ...pagination,
       }),
     };
