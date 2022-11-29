@@ -13,8 +13,7 @@ passport.use(
     async (email, password, done) => {
       // Checking is user with this email existing
       const user = await userRepository.getOne({ email });
-      if (!user)
-        return done(null, false, { message: "Email or password is incorrect" });
+      if (!user) return done(null, false, { message: "User does not exist" });
 
       // Checking password validation
       const passwordIsValid = await comparePassword(
