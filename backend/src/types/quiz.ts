@@ -7,7 +7,7 @@ export interface Question {
 
 interface BaseQuiz {
   title: string;
-  createdBy: string;
+  createdById: string;
   time: string;
 }
 

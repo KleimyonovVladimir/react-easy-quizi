@@ -1,6 +1,6 @@
 import Router from "express";
 import { isAdmin } from "../middleware/is-moderator";
-import { UserField, UserModel } from "../models/user";
+import { UserField } from "../models/user";
 import { UserRepository } from "../repositories/user";
 import { Pagination } from "../types";
 import { generateUserToDB } from "../utils/createMockData";
@@ -57,7 +57,7 @@ router.get("/users/:id", isAdmin, async (req, res) => {
       where: { [UserField.Uid]: id },
     };
 
-    const user = await UserModel.findOne(query);
+    const user = await userRepository.getOne(query);
 
     res.status(200).send(user);
   } catch (error) {

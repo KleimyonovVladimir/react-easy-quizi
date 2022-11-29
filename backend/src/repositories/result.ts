@@ -12,7 +12,7 @@ export const includeUser = {
 
 export const includeQuiz = {
   model: QuizModel,
-  attributes: [QuizField.Uid, QuizField.Title, QuizField.CreatedBy],
+  attributes: [QuizField.Uid, QuizField.Title, QuizField.CreatedById],
 };
 export class ResultRepository {
   async create(resultBody: IResult, withReturnUser: boolean = true) {
