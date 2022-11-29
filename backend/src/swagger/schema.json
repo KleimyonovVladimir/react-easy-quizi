@@ -387,12 +387,14 @@
           "title": { "type": "string" },
           "createdById": { "type": "string" },
           "createdBy": { "$ref": "#/components/schemas/User" },
+          "questionsCount": { "type": "number" },
           "time": { "type": "string" }
         },
         "example": {
           "uid": "391030ee-ddc9-4e34-bc1d-513baa69cc65",
           "title": "Web developing UI/UX 1",
           "time": "25",
+          "questionsCount": 2,
           "createdById": "29feeccf-88b3-43d8-8724-47719f7b25c5",
           "createdBy": {
             "uid": "29feeccf-88b3-43d8-8724-47719f7b25c5",
