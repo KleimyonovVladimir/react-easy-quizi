@@ -3,4 +3,8 @@
     display: block;
     margin-bottom: 10px;
   }
+  &-error-message {
+    position: absolute;
+    bottom: -25px;
+  }
 }
