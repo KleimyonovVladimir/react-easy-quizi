@@ -11,7 +11,7 @@ passport.use(
   new LocalStrategy({ usernameField: UserField.Email }, async (email, password, done) => {
     // Checking is user with this email existing
     const user = await userRepository.getOne({ where: { email } });
-    if (!user) return done(null, false, { message: "Email or password is incorrect" });
+    if (!user) return done(null, false, { message: "User does not exist" });
 
     // Checking password validation
     const passwordIsValid = await comparePassword(password, user.getDataValue(UserField.Password));

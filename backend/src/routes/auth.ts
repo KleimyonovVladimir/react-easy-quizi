@@ -4,10 +4,13 @@ import passport from "passport";
 const router = Router();
 
 // Login with passport. Access token will be added to the cookies
-router.post("/login", passport.authenticate("local"), async (req, res) => {
+router.post("/login", async (req, res, next) => {
   try {
-    // Return status 200 and user back to the client
-    res.status(200).send(req.user);
+    passport.authenticate("local", (error, user, info) => {
+      if (error) return next(error); // It is null
+      if (!user) return res.status(401).send(info.message);
+      res.status(200).send(user);
+    })(req, res, next);
   } catch (error) {
     res.status(500).send(error);
   }
