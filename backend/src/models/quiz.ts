@@ -5,14 +5,14 @@ import { QuestionDB, Quiz } from "../types";
 export enum QuizField {
   Uid = "uid",
   Title = "title",
-  CreatedBy = "createdBy",
+  CreatedById = "createdById",
   Time = "time",
 }
 
 interface IQuiz {
   [QuizField.Uid]?: string;
   [QuizField.Title]: string;
-  [QuizField.CreatedBy]: string;
+  [QuizField.CreatedById]: string;
   [QuizField.Time]: string;
 }
 
@@ -31,14 +31,9 @@ const QuizModel = sequelize.define<Model<IQuiz>>("quiz", {
       notEmpty: true,
     },
   },
-  [QuizField.CreatedBy]: {
-    type: DataTypes.STRING,
-    field: "created_by",
-    allowNull: false,
-    defaultValue: "",
-    validate: {
-      notEmpty: true,
-    },
+  [QuizField.CreatedById]: {
+    type: DataTypes.UUID,
+    field: "created_by_id",
   },
   [QuizField.Time]: {
     type: DataTypes.STRING,

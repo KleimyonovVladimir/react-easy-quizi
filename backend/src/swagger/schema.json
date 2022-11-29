@@ -385,13 +385,21 @@
         "properties": {
           "uid": { "type": "string" },
           "title": { "type": "string" },
-          "createdBy": { "type": "string" },
-          "time": { "type": "string" },
-          "questionsCount": { "type": "string" }
+          "createdById": { "type": "string" },
+          "createdBy": { "$ref": "#/components/schemas/User" },
+          "time": { "type": "string" }
         },
         "example": {
+          "uid": "391030ee-ddc9-4e34-bc1d-513baa69cc65",
           "title": "Web developing UI/UX 1",
-          "time": "25"
+          "time": "25",
+          "createdById": "29feeccf-88b3-43d8-8724-47719f7b25c5",
+          "createdBy": {
+            "uid": "29feeccf-88b3-43d8-8724-47719f7b25c5",
+            "email": "admin@easy-quizi.com",
+            "fullName": "Administrator",
+            "status": "admin"
+          }
         }
       },
       "CreateQuiz": {

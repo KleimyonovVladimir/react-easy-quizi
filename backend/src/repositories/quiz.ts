@@ -33,21 +33,8 @@ export class QuizRepository {
     return {
       total: await QuizModel.count(),
       data: await QuizModel.findAll({
-        attributes: [
-          QuizField.Uid,
-          QuizField.Title,
-          QuizField.Time,
-          QuizField.CreatedBy,
-          // [Sequelize.fn("COUNT", Sequelize.col("questions.uid")), "questionsCount"],
-        ],
-        // include: [
-        //   {
-        //     model: UserModel,
-        //     attributes: [UserField.Email],
-        //     foreignKey: QuizField.CreatedBy,
-        //   },
-        // ],
-        // group: ["Quiz.uid"],
+        attributes: [QuizField.Uid, QuizField.Title, QuizField.Time, QuizField.CreatedById],
+        include: [{ model: UserModel, as: "createdBy" }],
         ...pagination,
       }),
     };
