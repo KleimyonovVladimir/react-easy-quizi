@@ -35,6 +35,7 @@ const Quizzes: FC = () => {
           <TableRow>
             <TableCell>Title</TableCell>
             <TableCell align="left">Number of questions</TableCell>
+            <TableCell align="left">Created By</TableCell>
             <TableCell>Time</TableCell>
           </TableRow>
         </TableHead>
@@ -44,7 +45,8 @@ const Quizzes: FC = () => {
               <TableCell component="th" scope="row">
                 {quiz.title}
               </TableCell>
-              <TableCell align="left"></TableCell>
+              <TableCell align="left">{quiz.questionsCount}</TableCell>
+              <TableCell align="left">{quiz.createdBy.fullName}</TableCell>
               <TableCell align="left">{quiz.time}</TableCell>
             </TableRow>
           ))}
