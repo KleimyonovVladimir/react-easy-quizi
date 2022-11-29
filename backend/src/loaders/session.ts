@@ -1,6 +1,6 @@
 import { Application } from "express";
 import session from "express-session";
-import { passport } from "../passport";
+import { passport } from "../passportInit";
 
 export const initSession = (app: Application) => {
   const createdSession = session({

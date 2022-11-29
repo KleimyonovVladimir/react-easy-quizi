@@ -1,4 +1,4 @@
-import { WhereOptions } from "sequelize";
+import { FindOptions } from "sequelize";
 import { UserModel, IUser } from "../models/user";
 import { SequelizePagination } from "../types";
 
@@ -7,14 +7,12 @@ export class UserRepository {
     await UserModel.create(user);
 
     if (withReturnUser) {
-      return await this.getOne({ email: user.email });
+      return await this.getOne({ where: { email: user.email } });
     }
   }
 
-  getOne(conditions?: WhereOptions<IUser>) {
-    return UserModel.findOne({
-      where: conditions,
-    });
+  async getOne(query?: FindOptions<IUser>) {
+    return await UserModel.findOne(query);
   }
 
   async getAll(pagination: SequelizePagination) {
