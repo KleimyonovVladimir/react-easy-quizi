@@ -19,8 +19,7 @@ export const initModels = async () => {
     onUpdate: "cascade",
   });
 
-  UserModel.hasMany(QuizModel, { foreignKey: QuizField.CreatedBy });
-  QuizModel.belongsTo(UserModel, { foreignKey: QuizField.CreatedBy });
+  QuizModel.belongsTo(UserModel, { as: "createdBy", foreignKey: { name: QuizField.CreatedById, allowNull: false } });
 
   // Question
   QuizModel.hasMany(QuestionModel, {
