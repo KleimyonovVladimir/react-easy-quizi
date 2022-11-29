@@ -1,16 +1,24 @@
 import { FC } from 'react'
-import TextField, { TextFieldProps } from '@mui/material/TextField'
+import { FormControl, FormHelperText, TextField, TextFieldProps } from '@mui/material'
 
 import './styles.scss'
 
 const mainCssClass = 'input'
 
-const Input: FC<TextFieldProps> = ({ label, InputLabelProps, ...props }) => {
+type IInputProps = TextFieldProps & {
+  error?: boolean
+  errorMessage?: string
+}
+
+const Input: FC<IInputProps> = ({ label, InputLabelProps, error, errorMessage, ...props }) => {
   return (
-    <div>
+    <FormControl error={error}>
       {Boolean(label) && <label className={`${mainCssClass}-name`}>{label}:</label>}
       <TextField InputLabelProps={{ shrink: false, ...InputLabelProps }} {...props} />
-    </div>
+      {error && errorMessage && (
+        <FormHelperText className={`${mainCssClass}-error-message`}>{errorMessage}</FormHelperText>
+      )}
+    </FormControl>
   )
 }
 

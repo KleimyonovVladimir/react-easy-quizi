@@ -16,9 +16,11 @@ const commonIconSx = {
 }
 
 export const RefreshButton: React.FC<ButtonProps> = React.memo(props => {
+  const { sx, ...rest } = props
+
   return (
     <Tooltip title="Refresh" enterDelay={500} leaveDelay={200}>
-      <Button size="small" variant="outlined" sx={commonIconButtonSx} {...props}>
+      <Button size="small" variant="outlined" sx={{ ...commonIconButtonSx, ...sx }} {...rest}>
         <RefreshIcon sx={commonIconSx} />
       </Button>
     </Tooltip>
@@ -26,9 +28,17 @@ export const RefreshButton: React.FC<ButtonProps> = React.memo(props => {
 })
 
 export const RemoveButton: React.FC<ButtonProps> = React.memo(props => {
+  const { sx, ...rest } = props
+
   return (
     <Tooltip title="Delete" enterDelay={500} leaveDelay={200}>
-      <Button size="small" variant="outlined" color="error" sx={commonIconButtonSx} {...props}>
+      <Button
+        size="small"
+        variant="outlined"
+        color="error"
+        sx={{ ...commonIconButtonSx, ...sx }}
+        {...rest}
+      >
         <DeleteOutlineIcon sx={commonIconSx} />
       </Button>
     </Tooltip>
@@ -36,9 +46,11 @@ export const RemoveButton: React.FC<ButtonProps> = React.memo(props => {
 })
 
 export const AddButton: React.FC<ButtonProps> = React.memo(props => {
+  const { sx, ...rest } = props
+
   return (
     <Tooltip title="Add" enterDelay={500} leaveDelay={200}>
-      <Button size="small" variant="outlined" sx={commonIconButtonSx} {...props}>
+      <Button size="small" variant="outlined" sx={{ ...commonIconButtonSx, ...sx }} {...rest}>
         <AddCircleOutlineIcon sx={commonIconSx} />
       </Button>
     </Tooltip>
@@ -46,9 +58,11 @@ export const AddButton: React.FC<ButtonProps> = React.memo(props => {
 })
 
 export const EditButton: React.FC<ButtonProps> = React.memo(props => {
+  const { sx, ...rest } = props
+
   return (
     <Tooltip title="Edit" enterDelay={500} leaveDelay={200}>
-      <Button size="small" variant="outlined" sx={commonIconButtonSx} {...props}>
+      <Button size="small" variant="outlined" sx={{ ...commonIconButtonSx, ...sx }} {...rest}>
         <ModeEditOutlineIcon sx={commonIconSx} />
       </Button>
     </Tooltip>
