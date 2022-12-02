@@ -1,4 +1,4 @@
-import { FC, ReactElement } from 'react'
+import { FC, memo, ReactElement } from 'react'
 import { Controller, FieldValues, UseControllerProps } from 'react-hook-form'
 import { FormControl, FormHelperText, TextField } from '@mui/material'
 
@@ -19,6 +19,8 @@ const Input: FC<IProps> = ({ label, InputLabelProps, error, errorMessage, ...pro
     </FormControl>
   )
 }
+
+export default memo(Input)
 
 export const InputControl = <T extends FieldValues>(
   props: UseControllerProps<T> & IProps
@@ -47,5 +49,3 @@ export const InputControl = <T extends FieldValues>(
     />
   )
 }
-
-export default Input
