@@ -1,11 +1,11 @@
 import { FC } from 'react'
-import { Controller, useForm } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Button } from '@mui/material'
 import { login } from 'api/auth'
 import { useAuthContext } from 'context/AuthContext'
 
-import Input from 'components/Input'
+import { InputControl } from 'components/Input'
 
 import { schema } from './validation'
 
@@ -21,11 +21,7 @@ interface IFormValues {
 const SignIn: FC = () => {
   const authContext = useAuthContext()
 
-  const {
-    control,
-    handleSubmit,
-    formState: { errors }
-  } = useForm<IFormValues>({
+  const { control, handleSubmit } = useForm<IFormValues>({
     resolver: yupResolver(schema),
 
     defaultValues: {
@@ -35,7 +31,6 @@ const SignIn: FC = () => {
   })
 
   const buttonClickHandler = handleSubmit(async (data): Promise<void> => {
-    console.log(data)
     const response = await login(data)
     authContext.authUserChangeHandler(response)
   })
@@ -44,35 +39,21 @@ const SignIn: FC = () => {
     <div className={`${mainCssClass}-login`}>
       <h2 className={`${mainCssClass}-login-title`}>Sign in</h2>
       <div className={`${mainCssClass}-inputs-container`}>
-        <Controller
+        <InputControl
+          control={control}
           name="email"
-          control={control}
-          render={({ field: { ref, ...field } }) => (
-            <Input
-              {...field}
-              inputRef={ref}
-              label="Email"
-              type="text"
-              placeholder="Enter your email"
-              error={Boolean(errors.email)}
-              errorMessage={errors.email?.message}
-            />
-          )}
+          label="Email"
+          placeholder="Enter your email"
+          size="medium"
+          type="email"
         />
-        <Controller
-          name="password"
+        <InputControl
           control={control}
-          render={({ field: { ref, ...field } }) => (
-            <Input
-              {...field}
-              inputRef={ref}
-              label="Password"
-              type="password"
-              placeholder="Enter your password"
-              error={Boolean(errors.password)}
-              errorMessage={errors.password?.message}
-            />
-          )}
+          name="password"
+          label="Password"
+          placeholder="Enter your password"
+          size="medium"
+          type="password"
         />
       </div>
       <Button type="submit" fullWidth variant="contained" onClick={buttonClickHandler}>

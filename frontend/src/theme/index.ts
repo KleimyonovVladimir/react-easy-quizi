@@ -77,6 +77,35 @@ export const theme = createTheme({
           borderRadius: '5px'
         }
       }
+    },
+    MuiAccordionSummary: {
+      styleOverrides: {
+        root: {
+          '&.Mui-focusVisible': {
+            '&.Mui-focusVisible': {
+              backgroundColor: 'inherit'
+            }
+          }
+        },
+        expandIconWrapper: {
+          marginLeft: '12px'
+        }
+      }
+    },
+    MuiAccordionDetails: {
+      styleOverrides: {
+        root: {
+          display: 'grid',
+          gridRowGap: '10px'
+        }
+      }
+    },
+    MuiCheckbox: {
+      styleOverrides: {
+        root: {
+          padding: 0
+        }
+      }
     }
   }
 })
