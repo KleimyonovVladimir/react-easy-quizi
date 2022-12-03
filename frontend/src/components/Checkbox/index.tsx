@@ -47,8 +47,8 @@ export const CheckboxControl = <T extends FieldValues>(
       name={name}
       control={control}
       rules={{ required: restProps.required, ...rules }}
-      render={({ field, fieldState: { error } }) => (
-        <Checkbox {...field} {...restProps} error={!!error} />
+      render={({ field: { ref, ...restField }, fieldState: { error } }) => (
+        <Checkbox {...restField} {...restProps} inputRef={ref} error={!!error} />
       )}
     />
   )

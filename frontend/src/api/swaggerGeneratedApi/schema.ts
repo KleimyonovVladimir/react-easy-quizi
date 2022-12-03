@@ -5,24 +5,29 @@
 
 export interface components {
   schemas: {
-    User: { uid?: string; email: string; fullName: string; status: string }
+    User: { uid: string; email: string; fullName: string; status: string }
     UserCreate: components['schemas']['User'] & { password: string }
     LoginRequest: { email: string; password: string }
     Question: {
       uid?: string
       question: string
-      answers: { [key: string]: { [key: string]: any } }
-      rightAnswers: string[]
+      answers: { [key: string]: string }
+      rightAnswers: number[]
     }
-    QuizBase: {
+    Quiz: {
+      uid: string
+      title: string
+      createdById?: string
+      createdBy: components['schemas']['User']
+      questionsCount?: number
+      time?: string
+    }
+    CreateQuiz: {
       title: string
       time?: string
       questions: components['schemas']['Question'][]
     }
-    Quiz: {
-      uid: string
-      createdBy?: string
-    } & components['schemas']['QuizBase']
+    QuizDetails: components['schemas']['Quiz'] & components['schemas']['CreateQuiz']
     ResultRequest: { userUid?: string; quizUid?: string }
     Result: {
       uid?: string

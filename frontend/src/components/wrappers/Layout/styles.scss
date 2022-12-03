@@ -10,6 +10,16 @@
 
 .content {
   border: 10px solid #ebebebc9;
-  height: calc(100% - $ui-header-height);
+  height: calc(100vh - $ui-header-height);
   padding: 15px;
+  overflow: auto;
+
+  &::-webkit-scrollbar {
+    width: 5px;
+    background-color: $ui-color-white;
+  }
+  &::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: $ui-color-dark-blue;
+  }
 }

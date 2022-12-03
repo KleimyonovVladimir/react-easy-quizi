@@ -38,6 +38,7 @@ export const InputControl = <T extends FieldValues>(
       }}
       render={({ field: { ref, value, ...restField }, fieldState: { error } }) => (
         <Input
+          size="small"
           {...restField}
           {...restProps}
           inputRef={ref}
