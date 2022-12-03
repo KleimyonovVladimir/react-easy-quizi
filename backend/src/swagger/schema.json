@@ -374,7 +374,9 @@
           "question": { "type": "string" },
           "answers": {
             "type": "object",
-            "additionalProperties": {}
+            "additionalProperties": {
+              "type": "string"
+            }
           },
           "rightAnswers": { "type": "array", "items": { "type": "string" } }
         }
