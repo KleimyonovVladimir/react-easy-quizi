@@ -378,7 +378,7 @@
               "type": "string"
             }
           },
-          "rightAnswers": { "type": "array", "items": { "type": "string" } }
+          "rightAnswers": { "type": "array", "items": { "type": "number" } }
         }
       },
       "Quiz": {
