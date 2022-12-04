@@ -2,7 +2,9 @@ export interface Question {
   uid?: string;
   question: string;
   answers: Record<number, string>;
-  rightAnswers: Array<number>;
+  isMultiple?: boolean;
+  rightAnswers?: Array<number>;
+  questionsCount?: number;
 }
 
 interface BaseQuiz {

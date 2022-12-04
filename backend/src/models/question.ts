@@ -10,6 +10,7 @@ export enum QuestionField {
 interface IQuestion {
   [QuestionField.Uid]?: string;
   [QuestionField.QuestionJSON]: string;
+  [QuestionField.QuizId]: string;
 }
 
 const QuestionModel = sequelize.define<Model<IQuestion>>("question", {
@@ -26,6 +27,10 @@ const QuestionModel = sequelize.define<Model<IQuestion>>("question", {
     validate: {
       notEmpty: true,
     },
+  },
+  [QuestionField.QuizId]: {
+    type: DataTypes.UUID,
+    field: "quiz_id",
   },
 });
 

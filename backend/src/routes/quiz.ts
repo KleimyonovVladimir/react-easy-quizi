@@ -9,10 +9,10 @@ import { UserRepository } from "../repositories/user";
 import { ResultRepository } from "../repositories/result";
 import { UserQuizRepository } from "../repositories/user-quiz";
 import { Pagination, Question, QuestionDB, Quiz } from "../types";
-import { clearAnswersInQuiz } from "../utils/removeAnswersFromQuiz";
 import { isModerator } from "../middleware/is-moderator";
 import { ResultField } from "../models/results";
 import { parsePagination } from "../utils/parsePagination";
+import { QuestionRepository } from "../repositories/question";
 
 const router = Router();
 
@@ -20,13 +20,14 @@ const quizRepository = new QuizRepository();
 const userRepository = new UserRepository();
 const resultRepository = new ResultRepository();
 const userQuizRepository = new UserQuizRepository();
+const questionRepository = new QuestionRepository();
 
 router.get("/quizzes", async (req, res) => {
   try {
     const { page, pageSize } = req.query as Pagination;
 
     // Getting all quizzes
-    const quizzes = await quizRepository.getAll(parsePagination({ page, pageSize }));
+    const quizzes = await quizRepository.getQuizzesWithPaginationAndQuestionCount(parsePagination({ page, pageSize }));
 
     // Return status 200 and quizzes back to the client
     res.status(200).send({ ...quizzes, data: quizzes.data });
@@ -40,14 +41,14 @@ router.get("/quizzes/details/:id", async (req, res) => {
     const { id } = req.params;
 
     // Getting quiz
-    const foundedQuiz = await quizRepository.getOne({
-      [QuizField.Uid]: id,
-    });
+    const foundedQuiz = await quizRepository.getQuizDetails(id);
 
     if (!foundedQuiz) return res.status(400).send("Quiz not founded");
 
+    const questionsCount = await questionRepository.totalQuestionsCount(id);
+
     // Return status 200 and quiz back to the client
-    res.status(200).send(clearAnswersInQuiz(foundedQuiz?.toJSON()));
+    res.status(200).send({ ...foundedQuiz, questionsCount });
   } catch (error) {
     res.status(500).send(error);
   }
@@ -64,9 +65,7 @@ router.post("/quizzes/create", isModerator, async (req, res) => {
 
   try {
     // Checking is quiz with this title already exist
-    const foundedQuiz = await quizRepository.getOne({
-      [QuizField.Title]: title,
-    });
+    const foundedQuiz = await quizRepository.getOne({ [QuizField.Title]: title });
     if (foundedQuiz) res.status(400).send(`Quiz with this title '${title}' is already exist`);
 
     // 1. Creating new quiz
@@ -78,14 +77,23 @@ router.post("/quizzes/create", isModerator, async (req, res) => {
       })),
     });
 
+    if (!newQuiz) return res.status(500).send("Could not create quiz");
+
     // 2. Find the User row
     const foundedUser = await userRepository.findByPk(userId);
 
     // 3. INSERT the association in quiz-users table
     await (newQuiz as any)?.addUser(foundedUser);
 
+    const plainQuiz = newQuiz.get({ plain: true });
+
+    const { [QuizField.Uid]: id } = plainQuiz;
+    if (!id) return res.status(500).send("Could not get quiz id");
+
+    const questionsCount = await questionRepository.totalQuestionsCount(id);
+
     // Return status 200 and new quiz back to the client
-    res.status(200).send(newQuiz?.toJSON());
+    res.status(200).send({ ...newQuiz.toJSON(), questionsCount });
   } catch (error) {
     res.status(500).send(error);
   }

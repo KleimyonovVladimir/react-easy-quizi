@@ -7,7 +7,10 @@ export const clearAnswersInQuiz = (quiz: Quiz) => {
     questions: quizCopy.questions.map((item: any) => {
       const question = item.toJSON() as Question;
 
-      question.rightAnswers = [];
+      if (question.rightAnswers) {
+        question.isMultiple = question.rightAnswers.length > 1;
+      }
+      delete question.rightAnswers;
 
       return question;
     }),
