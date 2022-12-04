@@ -470,14 +470,14 @@
           "questions": { "$ref": "#/components/schemas/QuizQuestionAnswer" }
         },
         "example": {
-          "uid": "391030ee-ddc9-4e34-bc1d-513baa69cc65",
+          "quizId": "391030ee-ddc9-4e34-bc1d-513baa69cc65",
           "questions": [
             {
-              "uid": "eb4f9b75-db84-410d-aed1-245581c5147d",
+              "questionId": "eb4f9b75-db84-410d-aed1-245581c5147d",
               "userAnswers": [0]
             },
             {
-              "uid": "wb2f9b74-db84-410d-bed1-215581c5141d",
+              "questionId": "wb2f9b74-db84-410d-bed1-215581c5141d",
               "userAnswers": [0]
             }
           ]

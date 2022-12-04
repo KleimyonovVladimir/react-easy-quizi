@@ -8,7 +8,7 @@ export interface Question {
 }
 
 export interface UserQuestion {
-  uid?: string;
+  questionId?: string;
   userAnswers: number[];
 }
 
@@ -26,4 +26,9 @@ export interface QuestionDB {
 export interface Quiz<T = Question> extends BaseQuiz {
   uid?: string;
   questions: Array<T>;
+}
+
+export interface QuizResult {
+  quizId?: string;
+  questions: UserQuestion[];
 }

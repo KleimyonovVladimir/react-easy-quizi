@@ -8,7 +8,7 @@ import { QuizRepository } from "../repositories/quiz";
 import { UserRepository } from "../repositories/user";
 import { ResultRepository } from "../repositories/result";
 import { UserQuizRepository } from "../repositories/user-quiz";
-import { Pagination, Question, QuestionDB, Quiz, UserQuestion } from "../types";
+import { Pagination, Question, QuestionDB, Quiz, QuizResult, UserQuestion } from "../types";
 import { isModerator } from "../middleware/is-moderator";
 import { ResultField } from "../models/results";
 import { parsePagination } from "../utils/parsePagination";
@@ -137,8 +137,11 @@ router.post("/quizzes/results", async (req, res) => {
 
 router.post("/quizzes/result/send", async (req, res) => {
   try {
-    const { uid: quizId, questions } = req.body as Quiz<UserQuestion>;
+    const { quizId, questions } = req.body as QuizResult;
     const { user } = req || {};
+
+    if (!quizId) return res.status(400).send("quizId is required");
+    if (!questions) return res.status(400).send("questions is required");
 
     const userId = (user as IUser)?.[UserField.Uid];
 
@@ -158,7 +161,7 @@ router.post("/quizzes/result/send", async (req, res) => {
       const score = questions.reduce((acc, userQuestion) => {
         const [question] = quiz.questions
           .map((item) => (item as unknown as Model<QuestionDB>)?.toJSON())
-          .filter((item) => item.uid === userQuestion.uid) as unknown as Question[];
+          .filter((item) => item.uid === userQuestion.questionId) as unknown as Question[];
 
         const rightAnswers = question.rightAnswers || [];
         const userAnswers = userQuestion.userAnswers || [];
