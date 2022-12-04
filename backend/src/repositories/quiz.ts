@@ -2,7 +2,8 @@ import { Sequelize, WhereOptions } from "sequelize";
 import { IQuiz, QuizField, QuizModel } from "../models/quiz";
 import { QuestionModel, QuestionField } from "../models/question";
 import { Quiz, SequelizePagination } from "../types";
-import { UserField, UserModel } from "../models/user";
+import { UserModel } from "../models/user";
+import { clearAnswersInQuiz } from "../utils/removeAnswersFromQuiz";
 
 export const includeQuestion = {
   model: QuestionModel,
@@ -22,14 +23,40 @@ export class QuizRepository {
     return QuizModel.findByPk(primaryKey, { include: [includeQuestion] });
   }
 
-  getOne(conditions?: WhereOptions<IQuiz>) {
-    return QuizModel.findOne({
+  async getOne(conditions?: WhereOptions<IQuiz>) {
+    return await QuizModel.findOne({
       where: conditions,
-      include: [includeQuestion],
+      include: [
+        { model: UserModel, as: "createdBy" },
+        { model: QuestionModel, attributes: [] },
+      ],
     });
   }
 
-  async getAll(pagination: SequelizePagination) {
+  async getQuizById(quizId: string) {
+    return QuizModel.findOne({
+      where: { [QuizField.Uid]: quizId },
+    });
+  }
+
+  async getQuizDetails(quizId: string) {
+    const quiz = await QuizModel.findOne({
+      where: { [QuizField.Uid]: quizId },
+      attributes: {
+        include: [QuizField.Uid, QuizField.Title, QuizField.Time, QuizField.CreatedById],
+      },
+      include: [
+        { model: UserModel, as: "createdBy" },
+        { model: QuestionModel, attributes: [QuestionField.Uid, QuestionField.QuestionJSON] },
+      ],
+    });
+
+    if (!quiz) return undefined;
+
+    return clearAnswersInQuiz(quiz.toJSON());
+  }
+
+  async getQuizzesWithPaginationAndQuestionCount(pagination: SequelizePagination) {
     return {
       total: await QuizModel.count(),
       data: await QuizModel.findAll({

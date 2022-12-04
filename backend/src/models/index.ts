@@ -1,6 +1,6 @@
 import { UserModel } from "./user";
 import { QuizField, QuizModel } from "./quiz";
-import { QuestionModel } from "./question";
+import { QuestionField, QuestionModel } from "./question";
 import { QuizUserModel } from "./quiz-user";
 import { ResultModel } from "./results";
 
@@ -25,8 +25,9 @@ export const initModels = async () => {
   QuizModel.hasMany(QuestionModel, {
     onDelete: "cascade",
     onUpdate: "cascade",
+    foreignKey: { name: QuestionField.QuizId, allowNull: false },
   });
-  QuestionModel.belongsTo(QuizModel);
+  QuestionModel.belongsTo(QuizModel, { foreignKey: { name: QuestionField.QuizId, allowNull: false } });
 
   ResultModel.belongsTo(QuizModel);
   ResultModel.belongsTo(UserModel);
