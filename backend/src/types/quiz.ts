@@ -7,6 +7,11 @@ export interface Question {
   questionsCount?: number;
 }
 
+export interface UserQuestion {
+  uid?: string;
+  userAnswers: number[];
+}
+
 interface BaseQuiz {
   title: string;
   createdById: string;

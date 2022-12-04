@@ -8,7 +8,7 @@ import { QuizRepository } from "../repositories/quiz";
 import { UserRepository } from "../repositories/user";
 import { ResultRepository } from "../repositories/result";
 import { UserQuizRepository } from "../repositories/user-quiz";
-import { Pagination, Question, QuestionDB, Quiz } from "../types";
+import { Pagination, Question, QuestionDB, Quiz, UserQuestion } from "../types";
 import { isModerator } from "../middleware/is-moderator";
 import { ResultField } from "../models/results";
 import { parsePagination } from "../utils/parsePagination";
@@ -137,7 +137,7 @@ router.post("/quizzes/results", async (req, res) => {
 
 router.post("/quizzes/result/send", async (req, res) => {
   try {
-    const { uid: quizId, questions } = req.body as Quiz;
+    const { uid: quizId, questions } = req.body as Quiz<UserQuestion>;
     const { user } = req || {};
 
     const userId = (user as IUser)?.[UserField.Uid];
@@ -161,7 +161,7 @@ router.post("/quizzes/result/send", async (req, res) => {
           .filter((item) => item.uid === userQuestion.uid) as unknown as Question[];
 
         const rightAnswers = question.rightAnswers || [];
-        const userAnswers = userQuestion?.rightAnswers || [];
+        const userAnswers = userQuestion.userAnswers || [];
 
         if (rightAnswers.length === 1 && userAnswers.length === 1 && userAnswers[0] === rightAnswers[0]) {
           return acc + 1;
