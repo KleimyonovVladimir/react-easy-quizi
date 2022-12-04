@@ -458,16 +458,16 @@
         "type": "object",
         "required": ["uid", "userAnswers"],
         "properties": {
-          "uid": { "type": "string" },
-          "userAnswers": { "type": "array", "items": "number" }
+          "questionId": { "type": "string" },
+          "userAnswers": { "type": "array", "items": { "type": "number" } }
         }
       },
       "QuizResult": {
         "type": "object",
         "required": ["uid", "questions"],
         "properties": {
-          "uid": { "type": "string" },
-          "questions": { "$ref": "#/components/schemas/QuizQuestionAnswer" }
+          "quizId": { "type": "string" },
+          "questions": { "type": "array", "$ref": "#/components/schemas/QuizQuestionAnswer" }
         },
         "example": {
           "quizId": "391030ee-ddc9-4e34-bc1d-513baa69cc65",
