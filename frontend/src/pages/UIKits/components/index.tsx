@@ -1,4 +1,5 @@
 export * from './Buttons'
 export * from './Checkboxes'
 export * from './Loaders'
+export * from './LoadingModalUI'
 export * from './Statuses'

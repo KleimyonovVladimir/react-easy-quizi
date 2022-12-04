@@ -1,4 +1,4 @@
-import { Buttons, Checkboxes, Loaders, Statuses } from './components'
+import { Buttons, Checkboxes, Loaders, LoadingModalUI, Statuses } from './components'
 
 const UIKits: React.FC = () => {
   return (
@@ -7,6 +7,7 @@ const UIKits: React.FC = () => {
       <Loaders />
       <Statuses />
       <Checkboxes />
+      <LoadingModalUI />
     </div>
   )
 }
