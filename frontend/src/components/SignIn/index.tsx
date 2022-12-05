@@ -56,7 +56,13 @@ const SignIn: FC = () => {
           type="password"
         />
       </div>
-      <Button type="submit" fullWidth variant="contained" onClick={buttonClickHandler}>
+      <Button
+        type="submit"
+        fullWidth
+        variant="contained"
+        className={`${mainCssClass}-login-button`}
+        onClick={buttonClickHandler}
+      >
         Login
       </Button>
     </div>

@@ -1,6 +1,9 @@
 .form {
   &-login {
     width: 425px;
+    &-button {
+      padding: 16px 0;
+    }
 
     &-title {
       margin-bottom: 40px;

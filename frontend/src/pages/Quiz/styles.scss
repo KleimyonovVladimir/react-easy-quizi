@@ -1,0 +1,35 @@
+.quiz-passing {
+  &-header {
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 22px;
+  }
+  &-answers-list {
+    padding: 10px 0;
+    width: fit-content;
+    margin-left: 20px;
+  }
+  &-question {
+    margin-bottom: 15px;
+    padding: 10px;
+    &-name {
+      font-size: 18px;
+      font-weight: 500;
+    }
+  }
+  &-answer {
+    padding-bottom: 6px;
+    display: flex;
+    align-items: center;
+    &-text {
+      padding-left: 10px;
+    }
+  }
+  &-submit-button {
+    display: block;
+    margin-left: auto;
+    margin-top: 12px;
+  }
+}
