@@ -1,15 +1,15 @@
 import { FC, memo, ReactElement } from 'react'
 import { Controller, FieldValues, UseControllerProps } from 'react-hook-form'
-import { Checkbox as MuiCheckbox, FormControlLabel } from '@mui/material'
+import { FormControlLabel, Radio as MuiRadio, RadioGroup as MuiRadioGroup } from '@mui/material'
 import classnames from 'classnames'
 
-import { IProps } from './types'
+import { IProps, IRadioGroupProps } from './type'
 
 import './styles.scss'
 
-const mainCssClass = 'checkbox'
+const mainCssClass = 'radio'
 
-const Checkbox: FC<IProps> = props => {
+const Radio: FC<IProps> = props => {
   const { label, className, error, ...restProps } = props
 
   return (
@@ -23,7 +23,7 @@ const Checkbox: FC<IProps> = props => {
       }}
       label={label ?? ''}
       control={
-        <MuiCheckbox
+        <MuiRadio
           color={error ? 'error' : 'primary'}
           classes={{
             root: classnames(`${mainCssClass}-root`, { [`${mainCssClass}-root__error`]: error })
@@ -35,10 +35,26 @@ const Checkbox: FC<IProps> = props => {
   )
 }
 
-export default memo(Checkbox)
+export default memo(Radio)
 
-export const CheckboxControl = <T extends FieldValues>(
-  props: UseControllerProps<T> & IProps
+export const RadioGroup: FC<IRadioGroupProps> = props => {
+  const { items, ...rest } = props
+  return (
+    <MuiRadioGroup {...rest}>
+      {items.map(element => (
+        <Radio
+          size="small"
+          key={`${element.value}-${element.label}`}
+          value={element.value}
+          label={element.label}
+        />
+      ))}
+    </MuiRadioGroup>
+  )
+}
+
+export const RadioControl = <T extends FieldValues>(
+  props: UseControllerProps<T> & IRadioGroupProps
 ): ReactElement => {
   const { name, control, rules, ...restProps } = props
 
@@ -46,10 +62,8 @@ export const CheckboxControl = <T extends FieldValues>(
     <Controller
       name={name}
       control={control}
-      rules={{ required: restProps.required, ...rules }}
-      render={({ field: { ref, ...restField }, fieldState: { error } }) => (
-        <Checkbox {...restField} {...restProps} inputRef={ref} error={!!error} />
-      )}
+      rules={rules}
+      render={({ field: { ref, ...restField } }) => <RadioGroup {...restField} {...restProps} />}
     />
   )
 }

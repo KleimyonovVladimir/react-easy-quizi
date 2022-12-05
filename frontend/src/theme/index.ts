@@ -31,7 +31,6 @@ export const theme = createTheme({
           borderRadius: 6,
           textTransform: 'initial',
           fontWeight: 500,
-          padding: '17px 0',
           boxShadow: 'none',
           transition: 'all 0.1s ease',
 
@@ -101,6 +100,13 @@ export const theme = createTheme({
       }
     },
     MuiCheckbox: {
+      styleOverrides: {
+        root: {
+          padding: 0
+        }
+      }
+    },
+    MuiRadio: {
       styleOverrides: {
         root: {
           padding: 0

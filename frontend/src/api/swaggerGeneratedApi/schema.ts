@@ -12,7 +12,7 @@ export interface components {
       uid?: string
       question: string
       answers: { [key: string]: string }
-      rightAnswers: number[]
+      isMultiple?: boolean
     }
     Quiz: {
       uid: string
@@ -29,6 +29,11 @@ export interface components {
     }
     QuizDetails: components['schemas']['Quiz'] & components['schemas']['CreateQuiz']
     ResultRequest: { userUid?: string; quizUid?: string }
+    QuizQuestionAnswer: { questionId?: string; userAnswers: number[] }
+    QuizResult: {
+      quizId?: string
+      questions: components['schemas']['QuizQuestionAnswer'][]
+    }
     Result: {
       uid?: string
       score?: string

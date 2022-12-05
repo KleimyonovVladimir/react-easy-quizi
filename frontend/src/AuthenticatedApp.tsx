@@ -1,6 +1,7 @@
 import React, { FC, Suspense } from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import { AppNavigationRoutes } from 'constants/paths'
+import { QuizPassing } from 'pages/Quiz'
 import QuizBuilder from 'pages/QuizBuilder'
 
 import PageLoader from 'components/PageLoader'
@@ -18,6 +19,7 @@ const AuthenticatedApp: FC = () => {
         <Routes>
           <Route path={AppNavigationRoutes.Quizzes} element={<Quizzes />} />
           <Route path={AppNavigationRoutes.QuizCreate} element={<QuizBuilder />} />
+          <Route path={AppNavigationRoutes.QuizzesId} element={<QuizPassing />} />
           <Route path={AppNavigationRoutes.Users} element={<Users />} />
           <Route path={AppNavigationRoutes.Score} element={<Score />} />
           <Route path={AppNavigationRoutes.UIKits} element={<UIKits />} />

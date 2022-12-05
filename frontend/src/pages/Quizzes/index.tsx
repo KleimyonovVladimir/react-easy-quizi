@@ -1,9 +1,10 @@
 import { FC, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { TableBody, TableCell, TableHead, TableRow } from '@mui/material'
+import { Button, TableBody, TableCell, TableHead, TableRow } from '@mui/material'
 import { getQuizzes } from 'api/quizzes'
 import { IQuiz } from 'api/swaggerGeneratedApi'
 import { AppNavigationRoutes } from 'constants/paths'
+import { insertId } from 'utils/path'
 
 import CommonTable from 'components/CommonTable'
 import PageTitle from 'components/PageTitle'
@@ -27,6 +28,10 @@ const Quizzes: FC = () => {
     navigate(AppNavigationRoutes.QuizCreate)
   }
 
+  const handlerRedirectToQuiz = (id: string): void => {
+    navigate(insertId(AppNavigationRoutes.QuizzesId, id))
+  }
+
   return (
     <>
       <PageTitle title="Quizzes" />
@@ -37,6 +42,7 @@ const Quizzes: FC = () => {
             <TableCell align="left">Number of questions</TableCell>
             <TableCell align="left">Created By</TableCell>
             <TableCell>Time</TableCell>
+            <TableCell align="center">Let's start</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -48,6 +54,15 @@ const Quizzes: FC = () => {
               <TableCell align="left">{quiz.questionsCount}</TableCell>
               <TableCell align="left">{quiz.createdBy.fullName}</TableCell>
               <TableCell align="left">{quiz.time}</TableCell>
+              <TableCell align="center">
+                <Button
+                  variant="outlined"
+                  size="small"
+                  onClick={() => handlerRedirectToQuiz(quiz.uid)}
+                >
+                  Start
+                </Button>
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
