@@ -17,8 +17,8 @@ const Quizzes: FC = () => {
 
   useEffect(() => {
     const get = async (): Promise<void> => {
-      const usersResponse = await getQuizzes()
-      setQuizzes(usersResponse.data)
+      const quizResponse = await getQuizzes()
+      setQuizzes(quizResponse.data)
     }
 
     void get()
