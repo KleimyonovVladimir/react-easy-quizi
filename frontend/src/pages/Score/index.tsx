@@ -3,6 +3,7 @@ import { TableBody, TableCell, TableHead, TableRow } from '@mui/material'
 import { getScore } from 'api/score'
 import { IResult } from 'api/swaggerGeneratedApi'
 import moment from 'moment'
+import { parseToPercent } from 'utils/parseToPercent'
 
 import CommonTable from 'components/CommonTable'
 import PageTitle from 'components/PageTitle'
@@ -39,7 +40,7 @@ const Score: FC = () => {
               </TableCell>
               <TableCell align="left">{score.user?.fullName}</TableCell>
               <TableCell align="left">{moment(score.finishedAt).format('LLL')}</TableCell>
-              <TableCell>{Number(score.score?.slice(0, -1)).toFixed(2)}%</TableCell>
+              <TableCell>{parseToPercent(score?.score ?? '')}</TableCell>
             </TableRow>
           ))}
         </TableBody>
