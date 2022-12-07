@@ -112,6 +112,21 @@ export const theme = createTheme({
           padding: 0
         }
       }
+    },
+    MuiDialog: {
+      styleOverrides: {
+        paper: {
+          padding: '20px'
+        }
+      }
+    },
+    MuiDialogTitle: {
+      styleOverrides: {
+        root: {
+          marginBottom: '10px',
+          padding: 0
+        }
+      }
     }
   }
 })

@@ -3,9 +3,11 @@ import { useFieldArray, useForm } from 'react-hook-form'
 import { useParams } from 'react-router-dom'
 import { Button, Card } from '@mui/material'
 import { getQuiz, sendQuizAnswers } from 'api/quizzes'
-import { IQuizDetails } from 'api/swaggerGeneratedApi'
+import { IQuizDetails, IResult } from 'api/swaggerGeneratedApi'
 
+import { LoadingModal } from 'components/LoadingModal'
 import PageTitle from 'components/PageTitle'
+import { ResultModal } from 'components/ResultModal'
 
 import { CheckBoxAnswers } from './CheckBoxAnswers'
 import { RadioAnswers } from './RadioAnswers'
@@ -19,6 +21,8 @@ export const QuizPassing: FC = () => {
   const { id } = useParams<string>()
 
   const [quiz, setQuiz] = useState<IQuizDetails>()
+  const [isLoadingModalOpen, setIsLoadingModalOpen] = useState<boolean>(false)
+  const [result, setResult] = useState<IResult | null>(null)
 
   const { control, handleSubmit, setValue } = useForm<IQuestionsValues>({
     defaultValues: {
@@ -50,7 +54,12 @@ export const QuizPassing: FC = () => {
   const submitClickHandler = handleSubmit(async (data): Promise<void> => {
     const { questions } = data
 
-    await sendQuizAnswers({ quizId: id, questions })
+    setIsLoadingModalOpen(true)
+
+    const response = await sendQuizAnswers({ quizId: id, questions })
+
+    setIsLoadingModalOpen(false)
+    setResult(response)
   })
 
   return (
@@ -93,6 +102,8 @@ export const QuizPassing: FC = () => {
       >
         Submit answers
       </Button>
+      {isLoadingModalOpen && <LoadingModal />}
+      {Boolean(result) && <ResultModal result={result} />}
     </>
   )
 }
