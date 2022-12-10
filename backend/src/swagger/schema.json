@@ -293,7 +293,32 @@
         }
       }
     },
-    "/quizzes/delete/{id}": {
+    "/quizzes/{id}": {
+      "put": {
+        "tags": ["Quiz"],
+        "summary": "Update quiz by id",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateQuiz"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Quiz"
+                }
+              }
+            }
+          }
+        }
+      },
       "delete": {
         "tags": ["Quiz"],
         "summary": "Delete quiz by id",
@@ -451,6 +476,20 @@
           "isMultiple": { "type": "boolean" }
         }
       },
+      "QuestionRequest": {
+        "type": "object",
+        "required": ["question", "answers", "rightAnswers"],
+        "properties": {
+          "question": { "type": "string" },
+          "answers": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            }
+          },
+          "rightAnswers": { "type": "array", "items": { "type": "number" } }
+        }
+      },
       "Quiz": {
         "type": "object",
         "required": ["uid", "title", "createdBy", "questions"],
@@ -487,7 +526,7 @@
           "time": { "type": "string" },
           "questions": {
             "type": "array",
-            "items": { "$ref": "#/components/schemas/Question" }
+            "items": { "$ref": "#/components/schemas/QuestionRequest" }
           }
         },
         "example": {
@@ -495,7 +534,6 @@
           "time": "25",
           "questions": [
             {
-              "uid": "1f3434se-e4c3-422f-3450-0ddb29a11945",
               "question": "Why UI/UX so important?",
               "answers": {
                 "0": "because",
@@ -503,16 +541,15 @@
                 "2": "not important",
                 "3": "I do not know"
               },
-              "isMultiple": true
+              "rightAnswers": [0, 1]
             },
             {
-              "uid": "6f3434ee-e4c3-422f-8550-0ddbd9a11945",
               "question": "Why are u gay?",
               "answers": {
                 "0": "because",
                 "1": "I am not gay"
               },
-              "isMultiple": false
+              "rightAnswers": [0, 1]
             }
           ]
         }
