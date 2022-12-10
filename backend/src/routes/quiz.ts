@@ -1,8 +1,8 @@
 import Router from "express";
 import { Model } from "sequelize";
-import { QuizField } from "../models/quiz";
+import { QuizField, QuizModel } from "../models/quiz";
 import { IUser, UserField } from "../models/user";
-import { QuestionField } from "../models/question";
+import { QuestionField, QuestionModel } from "../models/question";
 import { QuizUserField } from "../models/quiz-user";
 import { QuizRepository } from "../repositories/quiz";
 import { UserRepository } from "../repositories/user";
@@ -15,6 +15,7 @@ import { parsePagination } from "../utils/parsePagination";
 import { QuestionRepository } from "../repositories/question";
 
 import QuizUtil from "./utils/quizFunctions";
+import { stringifyQuestions } from "../utils/stringifyQuestions";
 
 const router = Router();
 
@@ -59,9 +60,8 @@ router.get("/quizzes/details/:id", async (req, res) => {
 
 router.post("/quizzes/create", isModerator, async (req, res) => {
   const { title, time, questions } = req.body;
-  const { user } = req || {};
 
-  const userId = (user as IUser)?.[UserField.Uid];
+  const senderId = (req.user as IUser)[UserField.Uid];
 
   if (!title) return res.status(400).send("Title for the quiz are required");
   if (!time) return res.status(400).send("Time for the quiz are required");
@@ -69,21 +69,21 @@ router.post("/quizzes/create", isModerator, async (req, res) => {
   try {
     // Checking is quiz with this title already exist
     const foundedQuiz = await quizRepository.getOne({ [QuizField.Title]: title });
-    if (foundedQuiz) res.status(400).send(`Quiz with this title '${title}' is already exist`);
+    if (foundedQuiz) {
+      return res.status(400).send(`Quiz with this title '${title}' is already exist`);
+    }
 
     // 1. Creating new quiz
     const newQuiz = await quizRepository.create({
       ...req.body,
-      [QuizField.CreatedById]: userId,
-      questions: (questions || []).map((question: Question) => ({
-        [QuestionField.QuestionJSON]: JSON.stringify(question),
-      })),
+      [QuizField.CreatedById]: senderId,
+      questions: stringifyQuestions(questions),
     });
 
     if (!newQuiz) return res.status(500).send("Could not create quiz");
 
     // 2. Find the User row
-    const foundedUser = await userRepository.findByPk(userId);
+    const foundedUser = await userRepository.findByPk(senderId);
 
     // 3. INSERT the association in quiz-users table
     await (newQuiz as any)?.addUser(foundedUser);
@@ -93,16 +93,60 @@ router.post("/quizzes/create", isModerator, async (req, res) => {
     const { [QuizField.Uid]: id } = plainQuiz;
     if (!id) return res.status(500).send("Could not get quiz id");
 
+    const finalQuiz = await quizRepository.getQuizDetails(id, senderId);
     const questionsCount = await questionRepository.totalQuestionsCount(id);
 
     // Return status 200 and new quiz back to the client
-    res.status(200).send({ ...newQuiz.toJSON(), questionsCount });
+    res.status(200).send({ ...finalQuiz, questionsCount });
   } catch (error) {
     res.status(500).send(error);
   }
 });
 
-router.delete("/quizzes/delete/:id/", isModerator, async (req, res) => {
+router.put("/quizzes/:id", isModerator, async (req, res) => {
+  try {
+    const quizId = req.params.id;
+    const senderId = (req.user as IUser)[UserField.Uid];
+
+    if (!quizId) return res.status(400).send("Id is required");
+
+    const quiz = await quizRepository.getOne({ [QuizField.Uid]: quizId });
+
+    // Check if quiz exist
+    if (!quiz) {
+      return res.status(404).send("Quiz not found");
+    }
+
+    const { questions, ...restQuiz } = req.body;
+
+    if (questions) {
+      await QuestionModel.destroy({ where: { [QuestionField.QuizId]: quizId } });
+
+      const questionUserPayload = [];
+      for (let i = 0; i < questions.length; i++) {
+        const questionPayload = {
+          [QuestionField.QuizId]: quizId,
+          [QuestionField.QuestionJSON]: JSON.stringify(questions[i]),
+        };
+        questionUserPayload.push(questionPayload);
+      }
+      if (questionUserPayload.length > 0) {
+        await QuestionModel.bulkCreate(questionUserPayload, { returning: true });
+      }
+    }
+
+    await quiz.update(restQuiz);
+
+    const foundedQuiz = await quizRepository.getQuizDetails(quizId, senderId);
+    const questionsCount = await questionRepository.totalQuestionsCount(quizId);
+
+    res.status(200).send({ ...foundedQuiz, questionsCount });
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
+router.delete("/quizzes/:id", isModerator, async (req, res) => {
   try {
     const {
       params: { id },

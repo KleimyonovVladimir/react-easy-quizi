@@ -92,8 +92,8 @@ router.put("/users/:id", async (req, res) => {
       }
     }
 
-    const updatedOrg = await user?.update(req.body);
-    return res.status(200).send(updatedOrg);
+    const updatedUser = await user?.update(req.body);
+    return res.status(200).send(updatedUser);
   } catch (error) {
     res.status(500).send(error);
   }
