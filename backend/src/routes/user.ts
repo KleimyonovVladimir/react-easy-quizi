@@ -1,6 +1,6 @@
 import Router from "express";
 import { isAdmin } from "../middleware/is-moderator";
-import { UserField } from "../models/user";
+import { IUser, UserField, UserModel } from "../models/user";
 import { UserRepository } from "../repositories/user";
 import { Pagination } from "../types";
 import { generateUserToDB } from "../utils/createMockData";
@@ -49,7 +49,7 @@ router.get("/users", isAdmin, async (req, res) => {
   }
 });
 
-router.get("/users/:id", isAdmin, async (req, res) => {
+router.get("/users/:id", async (req, res) => {
   try {
     const { id } = req.params;
 
@@ -60,6 +60,38 @@ router.get("/users/:id", isAdmin, async (req, res) => {
     const user = await userRepository.getOne(query);
 
     res.status(200).send(user);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
+router.put("/users/:id", async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const senderId = (req.user as IUser)[UserField.Uid];
+
+    const user = await UserModel.findOne({
+      where: { [UserField.Uid]: userId },
+    });
+
+    if (!user) {
+      return res.status(404).send("User not found");
+    }
+
+    const { email, status } = req.body;
+
+    if (email) {
+      return res.status(400).send("Cannot update email address");
+    }
+
+    if (status) {
+      if (userId === senderId) {
+        return res.status(400).send("Users cannot update their own role");
+      }
+    }
+
+    const updatedOrg = await user?.update(req.body);
+    return res.status(200).send(updatedOrg);
   } catch (error) {
     res.status(500).send(error);
   }
