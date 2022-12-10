@@ -40,14 +40,15 @@ router.get("/quizzes", async (req, res) => {
 
 router.get("/quizzes/details/:id", async (req, res) => {
   try {
-    const { id } = req.params;
+    const quizId = req.params.id;
+    const senderId = (req.user as IUser)[UserField.Uid];
 
     // Getting quiz
-    const foundedQuiz = await quizRepository.getQuizDetails(id);
+    const foundedQuiz = await quizRepository.getQuizDetails(quizId, senderId);
 
     if (!foundedQuiz) return res.status(400).send("Quiz not founded");
 
-    const questionsCount = await questionRepository.totalQuestionsCount(id);
+    const questionsCount = await questionRepository.totalQuestionsCount(quizId);
 
     // Return status 200 and quiz back to the client
     res.status(200).send({ ...foundedQuiz, questionsCount });

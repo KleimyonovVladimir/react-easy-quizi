@@ -39,7 +39,7 @@ export class QuizRepository {
     });
   }
 
-  async getQuizDetails(quizId: string) {
+  async getQuizDetails(quizId: string, senderId?: string) {
     const quiz = await QuizModel.findOne({
       where: { [QuizField.Uid]: quizId },
       attributes: {
@@ -53,7 +53,7 @@ export class QuizRepository {
 
     if (!quiz) return undefined;
 
-    return clearAnswersInQuiz(quiz.toJSON());
+    return clearAnswersInQuiz(quiz.toJSON(), senderId);
   }
 
   async getQuizzesWithPaginationAndQuestionCount(pagination: SequelizePagination) {
