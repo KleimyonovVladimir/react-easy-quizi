@@ -1,6 +1,12 @@
 import { FC, memo, ReactElement } from 'react'
 import { Controller, FieldValues, UseControllerProps } from 'react-hook-form'
-import { FormControlLabel, Radio as MuiRadio, RadioGroup as MuiRadioGroup } from '@mui/material'
+import {
+  FormControl,
+  FormControlLabel,
+  FormLabel,
+  Radio as MuiRadio,
+  RadioGroup as MuiRadioGroup
+} from '@mui/material'
 import classnames from 'classnames'
 
 import { IProps, IRadioGroupProps } from './type'
@@ -38,18 +44,22 @@ const Radio: FC<IProps> = props => {
 export default memo(Radio)
 
 export const RadioGroup: FC<IRadioGroupProps> = props => {
-  const { items, ...rest } = props
+  const { items, error, label, ...rest } = props
   return (
-    <MuiRadioGroup {...rest}>
-      {items.map(element => (
-        <Radio
-          size="small"
-          key={`${element.value}-${element.label}`}
-          value={element.value}
-          label={element.label}
-        />
-      ))}
-    </MuiRadioGroup>
+    <FormControl>
+      {label && <FormLabel>{label}:</FormLabel>}
+      <MuiRadioGroup {...rest}>
+        {items.map(element => (
+          <Radio
+            size="small"
+            key={`${element.value}-${element.label}`}
+            value={element.value}
+            label={element.label}
+            error={error}
+          />
+        ))}
+      </MuiRadioGroup>
+    </FormControl>
   )
 }
 
@@ -63,7 +73,9 @@ export const RadioControl = <T extends FieldValues>(
       name={name}
       control={control}
       rules={rules}
-      render={({ field: { ref, ...restField } }) => <RadioGroup {...restField} {...restProps} />}
+      render={({ field: { ref, ...restField }, fieldState: { error } }) => (
+        <RadioGroup {...restField} {...restProps} error={!!error} />
+      )}
     />
   )
 }

@@ -1,14 +1,19 @@
 import { FC, useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { TableBody, TableCell, TableHead, TableRow } from '@mui/material'
 import { IUser } from 'api/swaggerGeneratedApi'
 import { getUsers } from 'api/users'
+import { AppNavigationRoutes } from 'constants/paths'
 import { userStatues } from 'constants/status'
 
 import CommonTable from 'components/CommonTable'
 import PageTitle from 'components/PageTitle'
 import { Status } from 'components/Status'
+import { AddButton } from 'components/WrappedButtons'
 
 const Users: FC = () => {
+  const navigate = useNavigate()
+
   const [users, setUsers] = useState<IUser[]>([])
 
   useEffect(() => {
@@ -19,6 +24,10 @@ const Users: FC = () => {
 
     void get()
   }, [])
+
+  const handlerRedirectToNewUserForm = (): void => {
+    navigate(AppNavigationRoutes.UserCreate)
+  }
 
   return (
     <>
@@ -45,6 +54,7 @@ const Users: FC = () => {
           ))}
         </TableBody>
       </CommonTable>
+      <AddButton sx={{ marginTop: '16px' }} onClick={handlerRedirectToNewUserForm} />
     </>
   )
 }
