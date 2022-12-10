@@ -3,6 +3,7 @@ import { Navigate, Route, Routes } from 'react-router-dom'
 import { AppNavigationRoutes } from 'constants/paths'
 import { QuizPassing } from 'pages/Quiz'
 import QuizBuilder from 'pages/QuizBuilder'
+import { UserBuilder } from 'pages/UserBuilder'
 
 import PageLoader from 'components/PageLoader'
 import Layout from 'components/wrappers/Layout'
@@ -21,6 +22,7 @@ const AuthenticatedApp: FC = () => {
           <Route path={AppNavigationRoutes.QuizCreate} element={<QuizBuilder />} />
           <Route path={AppNavigationRoutes.QuizzesId} element={<QuizPassing />} />
           <Route path={AppNavigationRoutes.Users} element={<Users />} />
+          <Route path={AppNavigationRoutes.UserCreate} element={<UserBuilder />} />
           <Route path={AppNavigationRoutes.Score} element={<Score />} />
           <Route path={AppNavigationRoutes.UIKits} element={<UIKits />} />
 

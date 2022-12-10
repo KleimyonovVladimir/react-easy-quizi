@@ -127,6 +127,16 @@ export const theme = createTheme({
           padding: 0
         }
       }
+    },
+    MuiFormLabel: {
+      styleOverrides: {
+        root: {
+          display: 'block',
+          marginBottom: '10px',
+          fontSize: 'inherit',
+          color: colors.black
+        }
+      }
     }
   }
 })

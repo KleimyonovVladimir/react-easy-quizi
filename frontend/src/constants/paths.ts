@@ -5,6 +5,7 @@ export const AppNavigationRoutes = {
   QuizzesId: '/quizzes/:id',
   QuizCreate: '/quizzes/create',
   Users: '/users',
+  UserCreate: '/users/create',
   Score: '/score',
   UIKits: '/ui-kits'
 }

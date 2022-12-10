@@ -10,4 +10,6 @@ export interface IRadioGroupProps extends RadioGroupProps {
     value: string
     label: string
   }>
+  label?: string
+  error?: boolean
 }

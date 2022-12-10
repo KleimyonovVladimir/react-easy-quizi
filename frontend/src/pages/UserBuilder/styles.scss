@@ -1,0 +1,10 @@
+.user-builder {
+  &-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 24px;
+  }
+  &-button {
+    margin-top: 30px;
+  }
+}
