@@ -1,6 +1,6 @@
 import Router from "express";
 import { Model } from "sequelize";
-import { QuizField, QuizModel } from "../models/quiz";
+import { QuizField } from "../models/quiz";
 import { IUser, UserField } from "../models/user";
 import { QuestionField, QuestionModel } from "../models/question";
 import { QuizUserField } from "../models/quiz-user";
