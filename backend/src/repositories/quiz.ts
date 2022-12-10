@@ -1,4 +1,4 @@
-import { Sequelize, WhereOptions } from "sequelize";
+import { DestroyOptions, Sequelize, WhereOptions } from "sequelize";
 import { IQuiz, QuizField, QuizModel } from "../models/quiz";
 import { QuestionModel, QuestionField } from "../models/question";
 import { Quiz, SequelizePagination } from "../types";
@@ -79,9 +79,7 @@ export class QuizRepository {
     };
   }
 
-  delete(conditions: WhereOptions<IQuiz>) {
-    return QuizModel.destroy({
-      where: conditions,
-    });
+  async delete(conditions: DestroyOptions<IQuiz>) {
+    return await QuizModel.destroy(conditions);
   }
 }

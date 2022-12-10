@@ -103,9 +103,7 @@ router.delete("/users/:id", isAdmin, async (req, res) => {
   try {
     const userId = req.params.id;
 
-    const query = {
-      where: { [UserField.Uid]: userId },
-    };
+    const query = { where: { [UserField.Uid]: userId } };
 
     // Check if user exist
     const user = await userRepository.getOne(query);

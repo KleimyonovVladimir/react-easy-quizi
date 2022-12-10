@@ -154,23 +154,20 @@ router.put("/quizzes/:id", isModerator, async (req, res) => {
 
 router.delete("/quizzes/:id", isModerator, async (req, res) => {
   try {
-    const {
-      params: { id },
-    } = req;
+    const quizId = req.params.id;
 
-    if (!id) return res.status(400).send("ID is required");
+    if (!quizId) return res.status(400).send("Id is required");
 
-    const foundedQuiz = await quizRepository.getOne({
-      [QuizField.Uid]: id,
-    });
+    const query = { where: { [QuizField.Uid]: quizId } };
 
-    if (foundedQuiz) {
-      await quizRepository.delete({ [QuizField.Uid]: id });
-
-      res.sendStatus(200);
-    } else {
-      res.status(400).send(`No quiz with id: ${id}`);
+    const quiz = await quizRepository.getOne(query);
+    if (!quiz) {
+      res.status(404).send("Quiz not found");
     }
+
+    await quizRepository.delete(query);
+
+    res.status(201).send();
   } catch (error) {
     res.status(500).send(error);
   }
