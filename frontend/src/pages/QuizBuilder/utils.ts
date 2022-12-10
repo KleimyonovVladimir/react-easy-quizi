@@ -1,7 +1,7 @@
-import { IQuestion } from 'api/swaggerGeneratedApi'
+import { IQuestionRequest } from 'api/swaggerGeneratedApi'
 import { IFormQuestion } from 'types/quiz'
 
-export const questionsMapping = (questions: IFormQuestion[]): IQuestion[] => {
+export const questionsMapping = (questions: IFormQuestion[]): IQuestionRequest[] => {
   return questions.map(item => {
     const { answers } = item
 
