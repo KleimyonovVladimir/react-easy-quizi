@@ -36,18 +36,17 @@ const searchQueryForRequest = async (user: IUser) => {
     return {};
   }
 
+  const resultsIds = await resultsIdsForUser(userId);
+
   if (allowedToViewByCreatedQuizzes) {
     const resultsIdsForQuiz = await resultsIdsForTeacherQuizzes(userId);
     return {
       where: {
-        [ResultField.QuizUid]: {
-          [Op.in]: resultsIdsForQuiz,
-        },
+        [Op.or]: [{ [ResultField.QuizUid]: { [Op.in]: resultsIdsForQuiz } }, { [ResultField.Uid]: { [Op.in]: resultsIds } }],
       },
     };
   }
 
-  const resultsIds = await resultsIdsForUser(userId);
   return {
     where: {
       [ResultField.Uid]: {
