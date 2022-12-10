@@ -8,14 +8,12 @@ export const initModels = async () => {
   // User
   UserModel.belongsToMany(QuizModel, {
     through: QuizUserModel,
-    onDelete: "cascade",
     onUpdate: "cascade",
   });
 
   // Quiz
   QuizModel.belongsToMany(UserModel, {
     through: QuizUserModel,
-    onDelete: "cascade",
     onUpdate: "cascade",
   });
 

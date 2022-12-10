@@ -68,12 +68,6 @@ router.post("/quizzes/create", isModerator, async (req, res) => {
   if (!time) return res.status(400).send("Time for the quiz are required");
 
   try {
-    // Checking is quiz with this title already exist
-    const foundedQuiz = await quizRepository.getOne({ [QuizField.Title]: title });
-    if (foundedQuiz) {
-      return res.status(400).send(`Quiz with this title '${title}' is already exist`);
-    }
-
     // 1. Creating new quiz
     const newQuiz = await quizRepository.create({
       ...req.body,
@@ -158,14 +152,12 @@ router.delete("/quizzes/:id", isModerator, async (req, res) => {
 
     if (!quizId) return res.status(400).send("Id is required");
 
-    const query = { where: { [QuizField.Uid]: quizId } };
-
-    const quiz = await quizRepository.getOne(query);
+    const quiz = await quizRepository.getOne({ [QuizField.Uid]: quizId });
     if (!quiz) {
-      res.status(404).send("Quiz not found");
+      return res.status(404).send("Quiz not found");
     }
 
-    await quizRepository.delete(query);
+    await quizRepository.delete({ where: { [QuizField.Uid]: quizId } });
 
     res.status(201).send();
   } catch (error) {

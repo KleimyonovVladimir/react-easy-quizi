@@ -8,11 +8,13 @@ import { removeEmptyFields } from "../utils/removeEmptyFields";
 export const includeUser = {
   model: UserModel,
   attributes: [UserField.Uid, UserField.Email, UserField.FullName],
+  paranoid: false,
 };
 
 export const includeQuiz = {
   model: QuizModel,
   attributes: [QuizField.Uid, QuizField.Title, QuizField.CreatedById],
+  paranoid: false,
 };
 export class ResultRepository {
   async create(resultBody: IResult, withReturnUser: boolean = true) {

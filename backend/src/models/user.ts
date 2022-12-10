@@ -19,44 +19,48 @@ interface IUser {
   [UserField.Password]: string;
 }
 
-const UserModel = sequelize.define<Model<IUser>>("user", {
-  [UserField.Uid]: {
-    type: DataTypes.UUID,
-    primaryKey: true,
-    unique: true,
-    allowNull: false,
-    defaultValue: DataTypes.UUIDV4,
-  },
-  [UserField.Email]: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    unique: true,
-    validate: {
-      isEmail: true,
-      notEmpty: true,
+const UserModel = sequelize.define<Model<IUser>>(
+  "user",
+  {
+    [UserField.Uid]: {
+      type: DataTypes.UUID,
+      primaryKey: true,
+      unique: true,
+      allowNull: false,
+      defaultValue: DataTypes.UUIDV4,
+    },
+    [UserField.Email]: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
+      validate: {
+        isEmail: true,
+        notEmpty: true,
+      },
+    },
+    [UserField.FullName]: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      field: "full_name",
+      validate: {
+        notEmpty: true,
+      },
+    },
+    [UserField.Status]: {
+      type: DataTypes.STRING,
+      defaultValue: UserStatusEnums.Student,
+    },
+    [UserField.Password]: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: true,
+        min: 6,
+      },
     },
   },
-  [UserField.FullName]: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    field: "full_name",
-    validate: {
-      notEmpty: true,
-    },
-  },
-  [UserField.Status]: {
-    type: DataTypes.STRING,
-    defaultValue: UserStatusEnums.Student,
-  },
-  [UserField.Password]: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    validate: {
-      notEmpty: true,
-      min: 6,
-    },
-  },
-});
+  { paranoid: true, timestamps: true }
+);
 
 UserModel.prototype.toJSON = function () {
   let values = Object.assign({}, this?.get());

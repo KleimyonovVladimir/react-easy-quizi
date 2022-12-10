@@ -27,7 +27,7 @@ export class QuizRepository {
     return await QuizModel.findOne({
       where: conditions,
       include: [
-        { model: UserModel, as: "createdBy" },
+        { model: UserModel, as: "createdBy", paranoid: false },
         { model: QuestionModel, attributes: [] },
       ],
     });
@@ -46,7 +46,7 @@ export class QuizRepository {
         include: [QuizField.Uid, QuizField.Title, QuizField.Time, QuizField.CreatedById],
       },
       include: [
-        { model: UserModel, as: "createdBy" },
+        { model: UserModel, as: "createdBy", paranoid: false },
         { model: QuestionModel, attributes: [QuestionField.Uid, QuestionField.QuestionJSON] },
       ],
     });
@@ -70,7 +70,7 @@ export class QuizRepository {
           ],
         },
         include: [
-          { model: UserModel, as: "createdBy" },
+          { model: UserModel, as: "createdBy", paranoid: false },
           { model: QuestionModel, attributes: [] },
         ],
         group: ["Quiz.uid"],
