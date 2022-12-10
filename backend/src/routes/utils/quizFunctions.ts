@@ -1,8 +1,9 @@
 import { Op } from "sequelize";
-import { isRequestFromAdmin, isRequestFromTeacher } from "../../helpers/isRequestFrom";
+import { isRequestFromRoleType } from "../../helpers/isRequestFrom";
 import { QuizField, QuizModel } from "../../models/quiz";
 import { ResultField, ResultModel } from "../../models/results";
 import { IUser } from "../../models/user";
+import { UserStatusEnums } from "../../types";
 
 const resultsIdsForUser = async (userUid?: string) => {
   if (!userUid) {
@@ -28,8 +29,8 @@ const resultsIdsForTeacherQuizzes = async (userUid?: string) => {
 const searchQueryForRequest = async (user: IUser) => {
   const userId = user.uid;
 
-  const allowedToViewAllResults = isRequestFromAdmin(user);
-  const allowedToViewByCreatedQuizzes = isRequestFromTeacher(user);
+  const allowedToViewAllResults = isRequestFromRoleType(UserStatusEnums.Admin, user);
+  const allowedToViewByCreatedQuizzes = isRequestFromRoleType(UserStatusEnums.Teacher, user);
 
   if (allowedToViewAllResults) {
     return {};

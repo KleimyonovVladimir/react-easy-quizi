@@ -1,24 +1,12 @@
 import { IUser } from "../models/user";
 import { UserStatusEnums } from "../types";
 
-export const isRequestFromAdmin = (user?: IUser) => {
+export const isRequestFromRoleType = (role: UserStatusEnums, user?: IUser) => {
   if (!user) {
     return false;
   }
 
-  if (user.status === UserStatusEnums.Admin) {
-    return true;
-  }
-
-  return false;
-};
-
-export const isRequestFromTeacher = (user?: IUser) => {
-  if (!user) {
-    return false;
-  }
-
-  if (user.status === UserStatusEnums.Teacher) {
+  if (user.status === role) {
     return true;
   }
 
