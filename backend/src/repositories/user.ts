@@ -20,6 +20,7 @@ export class UserRepository {
       total: await UserModel.count(),
       data: await UserModel.findAll({
         ...pagination,
+        paranoid: false,
       }),
     };
   }
