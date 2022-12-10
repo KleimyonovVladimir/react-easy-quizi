@@ -120,6 +120,62 @@
             }
           }
         }
+      },
+      "put": {
+        "tags": ["User"],
+        "summary": "Update user by id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": { "type": "string" }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["User"],
+        "summary": "Delete user by id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          }
+        }
       }
     },
     "/users/create": {
@@ -354,6 +410,20 @@
           }
         ]
       },
+      "UserUpdate": {
+        "type": "object",
+        "required": ["fullName", "status", "password"],
+        "properties": {
+          "fullName": { "type": "string" },
+          "status": { "type": "string" },
+          "password": { "type": "string" }
+        },
+        "example": {
+          "fullName": "Obi Wan Kenobi",
+          "status": "teacher",
+          "password": "123456"
+        }
+      },
       "LoginRequest": {
         "type": "object",
         "required": ["email", "password"],
@@ -362,7 +432,7 @@
           "password": { "type": "string" }
         },
         "example": {
-          "email": "ObiWanKenobi@easy-quizi.com",
+          "email": "admin@easy-quizi.com",
           "password": "123456"
         }
       },
@@ -390,7 +460,9 @@
           "createdById": { "type": "string" },
           "createdBy": { "$ref": "#/components/schemas/User" },
           "questionsCount": { "type": "number" },
-          "time": { "type": "string" }
+          "time": { "type": "string" },
+          "isMultiple": { "type": "boolean" },
+          "rightAnswers": { "type": "array", "items": { "type": "number" } }
         },
         "example": {
           "uid": "391030ee-ddc9-4e34-bc1d-513baa69cc65",
@@ -403,7 +475,8 @@
             "email": "admin@easy-quizi.com",
             "fullName": "Administrator",
             "status": "admin"
-          }
+          },
+          "isMultiple": true
         }
       },
       "CreateQuiz": {

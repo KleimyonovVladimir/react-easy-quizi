@@ -18,7 +18,9 @@ router.post("/users/create", isAdmin, async (req, res) => {
   try {
     // Checking is user with this email already exist
     const foundedUser = await userRepository.getOne({ where: { email } });
-    if (foundedUser) res.status(400).send(`User with this email '${email}' is already exist`);
+    if (foundedUser) {
+      return res.status(400).send(`User with this email '${email}' is already exist`);
+    }
 
     // Creating new user
     const newUser = await userRepository.create(req.body);
@@ -92,6 +94,28 @@ router.put("/users/:id", async (req, res) => {
 
     const updatedOrg = await user?.update(req.body);
     return res.status(200).send(updatedOrg);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
+router.delete("/users/:id", isAdmin, async (req, res) => {
+  try {
+    const userId = req.params.id;
+
+    const query = {
+      where: { [UserField.Uid]: userId },
+    };
+
+    // Check if user exist
+    const user = await userRepository.getOne(query);
+    if (!user) {
+      return res.status(404).send("User not found");
+    }
+
+    await userRepository.delete(query);
+
+    res.status(201).send();
   } catch (error) {
     res.status(500).send(error);
   }

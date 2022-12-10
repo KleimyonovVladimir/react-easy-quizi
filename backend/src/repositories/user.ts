@@ -1,4 +1,4 @@
-import { FindOptions } from "sequelize";
+import { DestroyOptions, FindOptions } from "sequelize";
 import { UserModel, IUser } from "../models/user";
 import { SequelizePagination } from "../types";
 
@@ -26,5 +26,9 @@ export class UserRepository {
 
   findByPk(primaryKey?: string) {
     return UserModel.findByPk(primaryKey);
+  }
+
+  async delete(conditions: DestroyOptions<IUser>) {
+    return await UserModel.destroy(conditions);
   }
 }
