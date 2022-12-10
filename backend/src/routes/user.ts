@@ -17,7 +17,7 @@ router.post("/users/create", isAdmin, async (req, res) => {
 
   try {
     // Checking is user with this email already exist
-    const foundedUser = await userRepository.getOne({ where: { email } });
+    const foundedUser = await userRepository.getOne({ where: { email }, paranoid: false });
     if (foundedUser) {
       return res.status(400).send(`User with this email '${email}' is already exist`);
     }
