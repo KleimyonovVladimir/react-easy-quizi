@@ -3,7 +3,7 @@ import { useFieldArray, useForm } from 'react-hook-form'
 import { useParams } from 'react-router-dom'
 import { Button, Card } from '@mui/material'
 import { getQuiz, sendQuizAnswers } from 'api/quizzes'
-import { IQuizDetails, IResult } from 'api/swaggerGeneratedApi'
+import { IQuiz, IResult } from 'api/swaggerGeneratedApi'
 
 import { LoadingModal } from 'components/LoadingModal'
 import PageTitle from 'components/PageTitle'
@@ -20,7 +20,7 @@ const mainCssClass = 'quiz-passing'
 export const QuizPassing: FC = () => {
   const { id } = useParams<string>()
 
-  const [quiz, setQuiz] = useState<IQuizDetails>()
+  const [quiz, setQuiz] = useState<IQuiz>()
   const [isLoadingModalOpen, setIsLoadingModalOpen] = useState<boolean>(false)
   const [result, setResult] = useState<IResult | null>(null)
 

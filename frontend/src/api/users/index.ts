@@ -11,3 +11,7 @@ export const createUsers = async (user: IUserCreate): Promise<IUser> => {
   const response = await client.post('/users/create', user)
   return response.data
 }
+
+export const deleteUser = async (id: string): Promise<void> => {
+  await client.delete(`/users/${id}`)
+}

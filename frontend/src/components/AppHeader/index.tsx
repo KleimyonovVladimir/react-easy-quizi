@@ -20,7 +20,7 @@ export const AppHeader: FC = () => {
     await logout()
     authContext.authUserChangeHandler(null)
   }
-  const handleConfirmDialog = (): void => {
+  const handleOpenCloseDialog = (): void => {
     setConfirmModalOpen(prev => !prev)
   }
 
@@ -42,7 +42,7 @@ export const AppHeader: FC = () => {
             type="submit"
             fullWidth
             variant="outlined"
-            onClick={handleConfirmDialog}
+            onClick={handleOpenCloseDialog}
           >
             Log out
           </Button>
@@ -51,7 +51,7 @@ export const AppHeader: FC = () => {
       {isConfirmModalOpen && (
         <ConfirmModal
           text="Are you sure to log out?"
-          onClose={handleConfirmDialog}
+          onClose={handleOpenCloseDialog}
           onConfirm={onClickLogOut}
         />
       )}

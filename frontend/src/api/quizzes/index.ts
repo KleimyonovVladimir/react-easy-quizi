@@ -1,4 +1,4 @@
-import { ICreateQuiz, IQuiz, IQuizDetails, IQuizResult, IResult } from 'api/swaggerGeneratedApi'
+import { ICreateQuiz, IQuiz, IQuizResult, IResult } from 'api/swaggerGeneratedApi'
 import { client } from 'config/client'
 import { IResponse } from 'types/api'
 
@@ -11,7 +11,11 @@ export const createQuizzes = async (quiz: ICreateQuiz): Promise<void> => {
   await client.post('/quizzes/create', quiz)
 }
 
-export const getQuiz = async (id: string): Promise<IQuizDetails> => {
+export const deleteQuiz = async (id: string): Promise<void> => {
+  await client.delete(`/quizzes/${id}`)
+}
+
+export const getQuiz = async (id: string): Promise<IQuiz> => {
   const response = await client.get(`/quizzes/details/${id}`)
   return response.data
 }

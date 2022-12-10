@@ -1,14 +1,14 @@
 import { FC, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Button, TableBody, TableCell, TableHead, TableRow } from '@mui/material'
-import { getQuizzes } from 'api/quizzes'
+import { deleteQuiz, getQuizzes } from 'api/quizzes'
 import { IQuiz } from 'api/swaggerGeneratedApi'
 import { AppNavigationRoutes } from 'constants/paths'
 import { insertId } from 'utils/path'
 
 import CommonTable from 'components/CommonTable'
 import PageTitle from 'components/PageTitle'
-import { AddButton } from 'components/WrappedButtons'
+import { AddButton, RemoveButton } from 'components/WrappedButtons'
 
 const Quizzes: FC = () => {
   const navigate = useNavigate()
@@ -32,6 +32,11 @@ const Quizzes: FC = () => {
     navigate(insertId(AppNavigationRoutes.QuizzesId, id))
   }
 
+  const handleRemoveQuiz = (id: string) => async (): Promise<void> => {
+    await deleteQuiz(id)
+    setQuizzes(prev => prev.filter(item => item.uid !== id))
+  }
+
   return (
     <>
       <PageTitle title="Quizzes" />
@@ -43,6 +48,7 @@ const Quizzes: FC = () => {
             <TableCell align="left">Created By</TableCell>
             <TableCell>Time</TableCell>
             <TableCell align="center">Let's start</TableCell>
+            <TableCell>Actions</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -62,6 +68,9 @@ const Quizzes: FC = () => {
                 >
                   Start
                 </Button>
+              </TableCell>
+              <TableCell>
+                <RemoveButton sx={{ marginLeft: '8px' }} onClick={handleRemoveQuiz(quiz.uid)} />
               </TableCell>
             </TableRow>
           ))}

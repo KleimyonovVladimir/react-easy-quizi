@@ -285,7 +285,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/QuizDetails"
+                  "$ref": "#/components/schemas/Quiz"
                 }
               }
             }
@@ -408,13 +408,15 @@
           "uid": { "type": "string" },
           "email": { "type": "string" },
           "fullName": { "type": "string" },
-          "status": { "type": "string" }
+          "status": { "type": "string" },
+          "deletedAt": { "type": "string" }
         },
         "example": {
           "uid": "5f424125-3786-4569-a348-ffa4da7d96fc",
           "fullName": "Obi Wan Kenobi",
           "email": "ObiWanKenobi@easy-quizi.com",
-          "status": "teacher"
+          "status": "teacher",
+          "deletedAt": "2022-12-10T18:10:01.000Z"
         }
       },
       "UserCreate": {
@@ -500,8 +502,9 @@
           "createdBy": { "$ref": "#/components/schemas/User" },
           "questionsCount": { "type": "number" },
           "time": { "type": "string" },
-          "isMultiple": { "type": "boolean" },
-          "rightAnswers": { "type": "array", "items": { "type": "number" } }
+          "questions": { "type": "array", "items": { "$ref": "#/components/schemas/Question" } },
+          "rightAnswers": { "type": "array", "items": { "type": "number" } },
+          "deletedAt": { "type": "string" }
         },
         "example": {
           "uid": "391030ee-ddc9-4e34-bc1d-513baa69cc65",
@@ -515,7 +518,7 @@
             "fullName": "Administrator",
             "status": "admin"
           },
-          "isMultiple": true
+          "deletedAt": "2022-12-10T18:10:01.000Z"
         }
       },
       "CreateQuiz": {
@@ -553,9 +556,6 @@
             }
           ]
         }
-      },
-      "QuizDetails": {
-        "allOf": [{ "$ref": "#/components/schemas/Quiz" }, { "$ref": "#/components/schemas/CreateQuiz" }]
       },
       "ResultRequest": {
         "type": "object",
