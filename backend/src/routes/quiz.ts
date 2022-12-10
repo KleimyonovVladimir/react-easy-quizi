@@ -8,7 +8,7 @@ import { QuizRepository } from "../repositories/quiz";
 import { UserRepository } from "../repositories/user";
 import { includeQuiz, includeUser, ResultRepository } from "../repositories/result";
 import { UserQuizRepository } from "../repositories/user-quiz";
-import { Pagination, Question, QuestionDB, Quiz, QuizResult } from "../types";
+import { Pagination, Question, QuestionDB, Quiz, QuizResult, UserStatusEnums } from "../types";
 import { isModerator } from "../middleware/is-moderator";
 import { ResultField, ResultModel } from "../models/results";
 import { parsePagination } from "../utils/parsePagination";
@@ -16,6 +16,7 @@ import { QuestionRepository } from "../repositories/question";
 
 import QuizUtil from "./utils/quizFunctions";
 import { stringifyQuestions } from "../utils/stringifyQuestions";
+import { isRequestFromRoleType } from "../helpers/isRequestFrom";
 
 const router = Router();
 
@@ -106,7 +107,8 @@ router.post("/quizzes/create", isModerator, async (req, res) => {
 router.put("/quizzes/:id", isModerator, async (req, res) => {
   try {
     const quizId = req.params.id;
-    const senderId = (req.user as IUser)[UserField.Uid];
+    const user = req.user as IUser;
+    const senderId = user[UserField.Uid];
 
     if (!quizId) return res.status(400).send("Id is required");
 
@@ -115,6 +117,10 @@ router.put("/quizzes/:id", isModerator, async (req, res) => {
     // Check if quiz exist
     if (!quiz) {
       return res.status(404).send("Quiz not found");
+    }
+
+    if (!isRequestFromRoleType(UserStatusEnums.Admin, user) && quiz.toJSON()?.createdById !== senderId) {
+      return res.status(403).send("You cannot edit this quiz");
     }
 
     const { questions, ...restQuiz } = req.body;
