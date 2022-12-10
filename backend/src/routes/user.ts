@@ -102,6 +102,7 @@ router.put("/users/:id", async (req, res) => {
 router.delete("/users/:id", isAdmin, async (req, res) => {
   try {
     const userId = req.params.id;
+    const senderId = (req.user as IUser)[UserField.Uid];
 
     const query = { where: { [UserField.Uid]: userId } };
 
@@ -109,6 +110,10 @@ router.delete("/users/:id", isAdmin, async (req, res) => {
     const user = await userRepository.getOne(query);
     if (!user) {
       return res.status(404).send("User not found");
+    }
+
+    if (userId === senderId) {
+      return res.status(400).send("You cannot delete yourself");
     }
 
     await userRepository.delete(query);
