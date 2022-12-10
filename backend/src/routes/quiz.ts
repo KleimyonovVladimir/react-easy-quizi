@@ -6,13 +6,15 @@ import { QuestionField } from "../models/question";
 import { QuizUserField } from "../models/quiz-user";
 import { QuizRepository } from "../repositories/quiz";
 import { UserRepository } from "../repositories/user";
-import { ResultRepository } from "../repositories/result";
+import { includeQuiz, includeUser, ResultRepository } from "../repositories/result";
 import { UserQuizRepository } from "../repositories/user-quiz";
-import { Pagination, Question, QuestionDB, Quiz, QuizResult, UserQuestion } from "../types";
+import { Pagination, Question, QuestionDB, Quiz, QuizResult } from "../types";
 import { isModerator } from "../middleware/is-moderator";
-import { ResultField } from "../models/results";
+import { ResultField, ResultModel } from "../models/results";
 import { parsePagination } from "../utils/parsePagination";
 import { QuestionRepository } from "../repositories/question";
+
+import QuizUtil from "./utils/quizFunctions";
 
 const router = Router();
 
@@ -125,11 +127,12 @@ router.delete("/quizzes/delete/:id/", isModerator, async (req, res) => {
 
 router.post("/quizzes/results", async (req, res) => {
   try {
-    const { userUid, quizUid } = req.body;
+    const user = req.user as IUser;
 
-    const results = await resultRepository.getAll({ userUid, quizUid });
+    const where_query = await QuizUtil.searchQueryForRequest(user);
+    const dbResults = await ResultModel.findAll({ ...where_query, include: [includeQuiz, includeUser] });
 
-    res.status(200).send(results);
+    res.status(200).send(dbResults);
   } catch (error) {
     res.status(500).send(error);
   }
