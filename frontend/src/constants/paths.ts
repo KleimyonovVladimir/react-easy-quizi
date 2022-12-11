@@ -7,5 +7,7 @@ export const AppNavigationRoutes = {
   Users: '/users',
   UserCreate: '/users/create',
   Score: '/score',
-  UIKits: '/ui-kits'
+  UIKits: '/ui-kits',
+  Error403: '/error/403',
+  Error404: '/error/404'
 }

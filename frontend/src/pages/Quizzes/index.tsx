@@ -4,6 +4,7 @@ import { Button, TableBody, TableCell, TableHead, TableRow } from '@mui/material
 import { deleteQuiz, getQuizzes } from 'api/quizzes'
 import { IQuiz } from 'api/swaggerGeneratedApi'
 import { AppNavigationRoutes } from 'constants/paths'
+import { UsersStatuses } from 'constants/status'
 import { useConfirm } from 'hooks/useConfirm'
 import { useSelect } from 'hooks/useSelect'
 import { insertId } from 'utils/path'
@@ -13,6 +14,7 @@ import CommonTable from 'components/CommonTable'
 import ConfirmModal from 'components/ConfirmModal'
 import PageTitle from 'components/PageTitle'
 import { AddButton, RemoveButton } from 'components/WrappedButtons'
+import RBAC from 'components/wrappers/RBAC'
 
 import './styles.scss'
 
@@ -57,7 +59,9 @@ const Quizzes: FC = () => {
       <CommonTable label="quizzes" minWidth={650}>
         <TableHead>
           <TableRow>
-            <TableCell />
+            <RBAC allowedRoles={[UsersStatuses.Admin]}>
+              <TableCell />
+            </RBAC>
             <TableCell>Title</TableCell>
             <TableCell align="left">Number of questions</TableCell>
             <TableCell align="left">Created By</TableCell>
@@ -77,9 +81,11 @@ const Quizzes: FC = () => {
                 onClick={() => handleSelectClick(quiz.uid)}
                 selected={isItemSelected}
               >
-                <TableCell>
-                  <Checkbox color="primary" checked={isItemSelected} />
-                </TableCell>
+                <RBAC allowedRoles={[UsersStatuses.Admin]}>
+                  <TableCell>
+                    <Checkbox color="primary" checked={isItemSelected} />
+                  </TableCell>
+                </RBAC>
                 <TableCell component="th" scope="row">
                   {quiz.title}
                 </TableCell>
@@ -101,8 +107,12 @@ const Quizzes: FC = () => {
         </TableBody>
       </CommonTable>
       <div className={`${mainCssClass}-buttons-wrapper`}>
-        <AddButton onClick={handlerRedirectToNewQuizForm} />
-        <RemoveButton sx={{ marginLeft: '8px' }} onClick={handleConfirmDialog} />
+        <RBAC allowedRoles={[UsersStatuses.Admin, UsersStatuses.Teacher]}>
+          <AddButton onClick={handlerRedirectToNewQuizForm} sx={{ marginRight: '8px' }} />
+        </RBAC>
+        <RBAC allowedRoles={[UsersStatuses.Admin]}>
+          <RemoveButton onClick={handleConfirmDialog} />
+        </RBAC>
       </div>
       {isConfirmModalOpen && (
         <ConfirmModal

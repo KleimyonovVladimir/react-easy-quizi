@@ -1,5 +1,5 @@
 import { Typography } from '@mui/material'
-import { userStatues } from 'constants/status'
+import { userStatus } from 'constants/status'
 
 import { Status } from 'components/Status'
 
@@ -12,9 +12,9 @@ export const Statuses: React.FC = () => {
     <div className={`${mainCssClass}-group`}>
       <Typography variant="h5">Statuses</Typography>
       <div className={`${mainCssClass}-group__items`}>
-        <Status status={userStatues.admin} />
-        <Status status={userStatues.teacher} />
-        <Status status={userStatues.student} />
+        <Status status={userStatus.admin} />
+        <Status status={userStatus.teacher} />
+        <Status status={userStatus.student} />
       </div>
     </div>
   )
