@@ -4,26 +4,38 @@ import SmartButtonIcon from '@mui/icons-material/SmartButton'
 import StarsIcon from '@mui/icons-material/Stars'
 
 import { AppNavigationRoutes } from './paths'
+import { UsersStatuses } from './status'
 
-export const menuItems = [
+interface IMenuItems {
+  title: string
+  link: string
+  icon: JSX.Element
+  roles: UsersStatuses[]
+}
+
+export const menuItems: IMenuItems[] = [
   {
     title: 'Quizzes',
     link: AppNavigationRoutes.Quizzes,
-    icon: <QuizIcon />
+    icon: <QuizIcon />,
+    roles: [UsersStatuses.Admin, UsersStatuses.Teacher, UsersStatuses.Student]
   },
   {
     title: 'Users',
     link: AppNavigationRoutes.Users,
-    icon: <PeopleAltIcon />
+    icon: <PeopleAltIcon />,
+    roles: [UsersStatuses.Admin]
   },
   {
     title: 'Score',
     link: AppNavigationRoutes.Score,
-    icon: <StarsIcon />
+    icon: <StarsIcon />,
+    roles: [UsersStatuses.Admin, UsersStatuses.Teacher, UsersStatuses.Student]
   },
   {
     title: 'UI Kits',
     link: AppNavigationRoutes.UIKits,
-    icon: <SmartButtonIcon />
+    icon: <SmartButtonIcon />,
+    roles: []
   }
 ]

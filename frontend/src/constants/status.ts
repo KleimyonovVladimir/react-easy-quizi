@@ -8,16 +8,22 @@ export const statusColor = {
   green: { background: colors.lightGreen, color: colors.darkGrey }
 }
 
-export const userStatues: Record<string, IStatus> = {
-  admin: {
+export enum UsersStatuses {
+  Admin = 'admin',
+  Teacher = 'teacher',
+  Student = 'student'
+}
+
+export const userStatus: Record<string, IStatus> = {
+  [UsersStatuses.Admin]: {
     name: 'Admin',
     color: statusColor.pink
   },
-  teacher: {
+  [UsersStatuses.Teacher]: {
     name: 'Teacher',
     color: statusColor.purple
   },
-  student: {
+  [UsersStatuses.Student]: {
     name: 'Student',
     color: statusColor.green
   }

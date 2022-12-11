@@ -5,7 +5,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { Button } from '@mui/material'
 import { createUsers } from 'api/users'
 import { AppNavigationRoutes } from 'constants/paths'
-import { userStatues } from 'constants/status'
+import { userStatus } from 'constants/status'
 import { IUserValues } from 'types/user'
 
 import { InputControl } from 'components/Input'
@@ -21,11 +21,11 @@ const mainCssClass = 'user-builder'
 const AVAILABLE_ROLES = [
   {
     value: 'teacher',
-    label: userStatues.teacher.name
+    label: userStatus.teacher.name
   },
   {
     value: 'student',
-    label: userStatues.student.name
+    label: userStatus.student.name
   }
 ]
 

@@ -4,7 +4,7 @@ import { TableBody, TableCell, TableHead, TableRow } from '@mui/material'
 import { IUser } from 'api/swaggerGeneratedApi'
 import { deleteUser, getUsers } from 'api/users'
 import { AppNavigationRoutes } from 'constants/paths'
-import { userStatues } from 'constants/status'
+import { UsersStatuses, userStatus } from 'constants/status'
 import { useConfirm } from 'hooks/useConfirm'
 import { useSelect } from 'hooks/useSelect'
 
@@ -14,6 +14,7 @@ import ConfirmModal from 'components/ConfirmModal'
 import PageTitle from 'components/PageTitle'
 import { Status } from 'components/Status'
 import { AddButton, RemoveButton } from 'components/WrappedButtons'
+import RBAC from 'components/wrappers/RBAC'
 
 import './styles.scss'
 
@@ -79,7 +80,7 @@ const Users: FC = () => {
                 </TableCell>
                 <TableCell align="left">{user.email}</TableCell>
                 <TableCell>
-                  <Status status={userStatues[user.status]} />
+                  <Status status={userStatus[user.status]} />
                 </TableCell>
               </TableRow>
             )
@@ -87,8 +88,8 @@ const Users: FC = () => {
         </TableBody>
       </CommonTable>
       <div className={`${mainCssClass}-buttons-wrapper`}>
-        <AddButton onClick={handlerRedirectToNewUserForm} />
-        <RemoveButton sx={{ marginLeft: '8px' }} onClick={handleConfirmDialog} />
+        <AddButton onClick={handlerRedirectToNewUserForm} sx={{ marginRight: '8px' }} />
+        <RemoveButton onClick={handleConfirmDialog} />
       </div>
       {isConfirmModalOpen && (
         <ConfirmModal

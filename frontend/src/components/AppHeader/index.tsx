@@ -1,7 +1,7 @@
 import { FC, useState } from 'react'
 import { Button } from '@mui/material'
 import { logout } from 'api/auth'
-import { userStatues } from 'constants/status'
+import { userStatus } from 'constants/status'
 import { useAuthContext } from 'context/AuthContext'
 
 import ConfirmModal from 'components/ConfirmModal'
@@ -32,7 +32,7 @@ export const AppHeader: FC = () => {
           {authContext.user?.status != null && (
             <Status
               className={`${mainCssClass}-content__status`}
-              status={userStatues[authContext.user.status]}
+              status={userStatus[authContext.user.status]}
             />
           )}
         </div>
