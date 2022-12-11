@@ -5,6 +5,8 @@ import { IUser } from 'api/swaggerGeneratedApi'
 import { deleteUser, getUsers } from 'api/users'
 import { AppNavigationRoutes } from 'constants/paths'
 import { userStatues } from 'constants/status'
+import { useConfirm } from 'hooks/useConfirm'
+import { useSelect } from 'hooks/useSelect'
 
 import Checkbox from 'components/Checkbox'
 import CommonTable from 'components/CommonTable'
@@ -19,9 +21,11 @@ const mainCssClass = 'users'
 
 const Users: FC = () => {
   const navigate = useNavigate()
+
   const [users, setUsers] = useState<IUser[]>([])
-  const [selected, setSelected] = useState<string[]>([])
-  const [isConfirmModalOpen, setConfirmModalOpen] = useState(false)
+
+  const { isConfirmModalOpen, handleConfirmDialog } = useConfirm(false)
+  const { selected, handleSelectClick, isSelected, setSelected } = useSelect([])
 
   useEffect(() => {
     const get = async (): Promise<void> => {
@@ -44,39 +48,13 @@ const Users: FC = () => {
     handleConfirmDialog()
   }
 
-  const handleConfirmDialog = (): void => {
-    setConfirmModalOpen(prev => !prev)
-  }
-
-  const handleClick = (name: string | undefined): void => {
-    const selectedIndex = selected.indexOf(name ?? '')
-    let newSelected: string[] = []
-
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name ?? '')
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1))
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1))
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(
-        selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1)
-      )
-    }
-
-    setSelected(newSelected)
-  }
-
-  const isSelected = (name: string | undefined): boolean => selected.includes(name ?? '')
-
   return (
     <>
       <PageTitle title="Users" />
       <CommonTable label="users" minWidth={650}>
         <TableHead>
           <TableRow>
-            <TableCell></TableCell>
+            <TableCell />
             <TableCell>Full Name</TableCell>
             <TableCell align="left">Email</TableCell>
             <TableCell>Status</TableCell>
@@ -90,7 +68,7 @@ const Users: FC = () => {
                 key={user.uid}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                 role="checkbox"
-                onClick={() => handleClick(user.uid)}
+                onClick={() => handleSelectClick(user.uid)}
                 selected={isItemSelected}
               >
                 <TableCell>
